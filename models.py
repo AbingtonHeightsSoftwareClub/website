@@ -23,7 +23,7 @@ class Property(db.Model):
     __tablename__ = "properties"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
-    user_id = db.Column(db.Integer, db.ForeignKey("players.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("players.id", ondelete="SET NULL", name="fk_properties_players"), nullable=True)
 
     price = db.Column(db.Integer)
     rent_no_set = db.Column(db.Integer)

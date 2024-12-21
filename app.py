@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+import pandas as pd
 
 db = SQLAlchemy()
 
@@ -15,5 +16,6 @@ def create_app():
     register_routes(app, db)
 
     migrate = Migrate(app, db)
+
 
     return app

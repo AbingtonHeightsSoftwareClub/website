@@ -12,6 +12,15 @@
       <a href="{{url_for('details', id=player.id)}}">Details</a>
     </li>
   {% endfor %}
+
+  {% for property in properties %}
+
+    <li>
+      {{property.title}}
+    </li>
+
+  {% endfor %}
+
 </ul>
 
 <h3>
@@ -22,13 +31,36 @@
   <input type="number" name="piece" placeholder="Piece" required="required"><br>
   <input type="number" name="position" placeholder="Position" required="required"><br>
   <input type="number" name="money" placeholder="Money" required="required"><br>
-  <input type="submit" value="Create"><br>
+  <input type="submit" name="player" value="Create"><br>
 </form>
 
+<br>
+<h3>
+  New Property
+</h3>
+
+<form action="{{url_for('index')}}" method="POST">
+
+  <input type="submit" name="property" value="Create" required="required" placeholder="color"><br>
+</form>
+<br>
+<h3>Buy</h3>
+<form action="{{url_for('index')}}" method="POST">
+  <input type="text" name="buyer" placeholder="Player" required="required"><br>
+  <input type="text" name="sold" placeholder="Property" required="required"><br>
+  <input type="submit" name="buy" value="Create"><br>
+</form>
+
+
+<button onclick="deleteProperty()"> Delete</button>
+
 <script type="text/javascript">
+  if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
 
   function deletePerson(id){
-    fetch("{{url_for("delete", id=id)}}" + id, {
+    fetch("{{url_for('delete_player', id=id)}}" + id, {
       method: "DELETE"
     }).then(response => {
       if (response.ok){
@@ -36,6 +68,22 @@
 
       }else{
       console.error("Failed to delete item with id: ", id);
+      }
+    }).catch(error => {
+      console.error("Error during fetching:", error);
+    })
+
+  }
+
+  function deleteProperty(){
+    fetch("{{url_for('delete_property')}}", {
+      method: "DELETE"
+    }).then(response => {
+      if (response.ok){
+        window.location.reload();
+
+      }else{
+      console.error("Failed to delete item with id: ");
       }
     }).catch(error => {
       console.error("Error during fetching:", error);
