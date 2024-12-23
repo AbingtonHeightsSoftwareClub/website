@@ -1,0 +1,17 @@
+{% extends "base.html" %} {%block title%}Monopoly
+
+{%endblock%} {% block content %}
+
+
+
+
+<div id="gameboard"></div>
+<p>It is <span id="player"></span>'s turn.</p>
+<p id="info-display"></p>
+
+<script
+  type="text/javascript"
+  src="{{url_for('static', filename='js/monopoly.js')}}"
+></script>
+{% endblock%}
+

@@ -86,4 +86,7 @@ def register_routes(app, db: SQLAlchemy):
         player = Player.query.filter(Player.id==id).first() # Given as list, so we need first
         return render_template("details.html", player = player)
 
+    @app.route("/monopoly")
+    def monopoly():
+        return render_template("monopoly.html")
 
