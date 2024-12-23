@@ -1,0 +1,83 @@
+:root {
+  --size: 55;
+  --inches: calc(var(--size)/18.5*1rem);
+  --color: #807c7c7d;
+  --hover-color: #807c7cc7;
+}
+
+.monopoly {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  z-index: -1;
+}
+
+body {
+  height: 100%;
+ }
+
+
+.piece {
+  height: 50px;
+  z-index: 3;
+  position: absolute;
+}
+
+#gameboard {
+  width: calc(var(--size)*1rem + 0.1rem);
+  height: calc(var(--size) * 1rem);
+  background-image: url("../img/monopoly.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  
+}
+
+.corner {
+  height: calc(2.4 * var(--inches));
+  width: calc(2.5 * var(--inches));
+  background-color: var(--color);
+  outline: 0.05rem solid black;
+
+}
+
+.tile {
+  height: calc(2.4 * var(--inches));
+  width: calc(1.5 * var(--inches));
+  background-color: var(--color);
+  outline: 0.05rem solid black;
+
+}
+
+.ltile {
+  height: calc(1.5 * var(--inches));
+  width: calc(2.5 * var(--inches));
+  background-color: var(--color);
+  outline: 0.05rem solid black;
+
+}
+.rtile {
+  height: calc(1.5 * var(--inches));
+  width: calc(2.5 * var(--inches));
+  background-color: var(--color);
+  outline: 0.05rem solid black;
+
+}
+
+.center{
+  height:calc(1.5*var(--inches));
+  width:calc(13.5*var(--inches));
+  background-color: transparent;
+}
+
+.corner:hover, .tile:hover, .ltile:hover, .rtile:hover{
+  background-color: var(--hover-color);
+}
+
+
