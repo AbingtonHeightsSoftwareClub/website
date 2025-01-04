@@ -1,0 +1,6 @@
+.box{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5rem;
+    gap: 5rem;
+  }

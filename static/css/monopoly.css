@@ -1,5 +1,5 @@
 :root {
-  --size: 55;
+  --size: 45;
   --inches: calc(var(--size)/18.5*1rem);
   --color: #807c7c7d;
   --hover-color: #807c7cc7;
@@ -14,10 +14,12 @@
   bottom: 0;
   text-align: center;
   z-index: -1;
+  height: var(--size);
 }
 
 body {
   height: 100%;
+  overflow-y: hidden;
  }
 
 
