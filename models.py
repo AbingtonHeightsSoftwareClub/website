@@ -1,80 +1,64 @@
+from typing import Optional
+from sqlalchemy import ForeignKey
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
+from app import db, login
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
-from app import db
-import pandas as pd
 
-
-class Player(db.Model):
+class Player(UserMixin, db.Model):
     __tablename__ = "players"
-    id = db.Column(db.Integer, db.Sequence('player_id_seq'), primary_key=True)
-    title = db.Column(db.String(50))
-    piece = db.Column(db.Integer)
-    position = db.Column(db.Integer)
-    money = db.Column(db.Integer)
-    # The player owns a list of properties
-    properties = relationship("Property",
-                              back_populates="player")  # Backpopulates to other relationship column/variable. Not class object name.
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(30))
+    piece: Mapped[int] = mapped_column()
+    position: Mapped[int] = mapped_column()
+    money: Mapped[int] = mapped_column()
+    password_hash: Mapped[Optional[str]] = mapped_column(String(256))
 
-    def __repr__(self):
+    properties = relationship(
+        "Property",
+        back_populates="owner",
+        cascade="save-update"
+    )
+
+    def __str__(self):
         return f"Player: ID: {self.id}, Title: {self.title}, Piece: {self.piece}, Money: {self.money}"
 
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 class Property(db.Model):
     __tablename__ = "properties"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
-    user_id = db.Column(db.Integer, db.ForeignKey("players.id", ondelete="SET NULL", name="fk_properties_players"), nullable=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(100))
+    user_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey('players.id', ondelete="SET NULL"),
+        nullable=True,
+        name="fk_property_user"
+    )
+    owner = relationship("Player", back_populates="properties")
 
-    price = db.Column(db.Integer)
-    rent_no_set = db.Column(db.Integer)
-    rent_color_set = db.Column(db.Integer)
-    rent_1_house = db.Column(db.Integer)
-    rent_2_house = db.Column(db.Integer)
-    rent_3_house = db.Column(db.Integer)
-    rent_4_house = db.Column(db.Integer)
-    rent_hotel = db.Column(db.Integer)
-    building_cost = db.Column(db.Integer)
-    mortgage = db.Column(db.Integer)
-    unmortgage = db.Column(db.Integer)
-    color = db.Column(db.String(10))
-
-    player = relationship("Player",
-                          back_populates="properties")  # Must be same as what the other back_populates is called
+    price: Mapped[int] = mapped_column()
+    rent_no_set: Mapped[int] = mapped_column()
+    rent_color_set: Mapped[int] = mapped_column()
+    rent_1_house: Mapped[int] = mapped_column()
+    rent_2_house: Mapped[int] = mapped_column()
+    rent_3_house: Mapped[int] = mapped_column()
+    rent_4_house: Mapped[int] = mapped_column()
+    rent_hotel: Mapped[int] = mapped_column()
+    building_cost: Mapped[int] = mapped_column()
+    mortgage: Mapped[int] = mapped_column()
+    unmortgage: Mapped[int] = mapped_column()
+    color: Mapped[str] = mapped_column(String(20))
 
     def __repr__(self):
         return f"Title: {self.title}, Price: {self.price}"
 
-#
-# def add_player(session: Session, title: str, piece: int, position: int, money: int):
-#     session.add(Player(title=title, piece=piece, position=position, money=money))
-#
-# def add_properties(session:Session, in_filename: str):
-#     data = pd.read_csv(in_filename, index_col=0)
-#     for title in data.index.values:
-#         #values = [int(x) for x in data.loc[title].iloc[0: -1]]
-#         session.add(Property(title = title,
-#                              price=int(data.loc[title][0]),
-#                              rent_no_set=int(data.loc[title][1]),
-#                              rent_color_set=int(data.loc[title][2]),
-#                              rent_1_house=int(data.loc[title][3]),
-#                              rent_2_house=int(data.loc[title][4]),
-#                              rent_3_house=int(data.loc[title][5]),
-#                              rent_4_house=int(data.loc[title][6]),
-#                              rent_hotel=int(data.loc[title][7]),
-#                              building_cost=int(data.loc[title][8]),
-#                              mortgage=int(data.loc[title][9]),
-#                              unmortgage=int(data.loc[title][10]),
-#                              color=data.loc[title].iloc[-1]))
-#
-#
-#
-#
-# if __name__=="__main__":
-#     add_player(session, "Alice", 10, 10, 10)
-#     add_properties(session, "properties.csv")
-#     session.commit()
-#
-#
-#     name = "hello"
-#     for prop in session.query(Property).all():
-#         print(prop)
+@login.user_loader
+def load_player(id):
+    return db.session.get(Player, int(id))

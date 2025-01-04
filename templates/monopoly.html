@@ -1,17 +1,30 @@
-{% extends "base.html" %} {%block title%}Monopoly
-
-{%endblock%} {% block content %}
-
-
-
-
+{% extends "base.html" %} {%block title%}Monopoly {%endblock%} {% block content
+%} {%block js%}
+<script
+    src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+    integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+    crossorigin="anonymous"
+></script>
+{% endblock %}
+<img class="piece" src="{{url_for('static', filename='img/monopoly_piece_1.svg')}}" id="monopoly-1">
 <div id="gameboard"></div>
 <p>It is <span id="player"></span>'s turn.</p>
 <p id="info-display"></p>
 
-<script
-  type="text/javascript"
-  src="{{url_for('static', filename='js/monopoly.js')}}"
-></script>
-{% endblock%}
+<button id="join">Join</button>
 
+<script
+    type="module"
+    src="{{url_for('static', filename='js/monopoly.js')}}"
+></script>
+<script
+    type="text/javascript"
+    src="{{url_for('static', filename='js/socket.js')}}"
+></script>
+
+<link
+    rel="stylesheet"
+    href="{{url_for('static', filename='css/monopoly.css')}}"
+/>
+
+{% endblock%}
