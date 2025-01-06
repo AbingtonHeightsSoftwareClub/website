@@ -31,6 +31,7 @@ export function createBoard(pieces, gameBoard, ids) {
                 j += 1;
 
                 break;
+
             default:
                 console.error("Error");
                 break;
@@ -65,21 +66,37 @@ export function downHandler(monopoly_1, speed) {
 }
 
 export function moveTo(monopoly_1, tile) {
-    let pos = getElementCenter(document.getElementById(tile));
-    console.log(pos);
-    monopoly_1.style.left = pos.x + "px";
-    monopoly_1.style.top = pos.y + "px";
+    let pos = document.getElementById(tile);
+    pos.appendChild(monopoly_1);
+    let size = "1rem";
+    monopoly_1.style.top = "0rem";
+    monopoly_1.style.bottom = "0rem";
+    monopoly_1.style.left = "0rem";
+    monopoly_1.style.right = "0rem";
+    if (0 <= tile && tile <= 10) {
+        monopoly_1.style.top=size;
+        console.log(monopoly_1.style.top);
+
+
+    } else if (11 <= tile && tile <= 20) {
+        monopoly_1.style.left="-1rem";
+        console.log(monopoly_1.style.left);
+
+    } else if (21 <= tile && tile <= 30) {
+        monopoly_1.style.top="-1.5rem";
+    } else {
+        monopoly_1.style.left=size;
+    }
 }
 
 
 
 export function getElementCenter(element) {
     const rect = element.getBoundingClientRect();
-
-    return { x:rect.left + rect.width/2-50/2, y:rect.top + rect.height/2-50/2};
+    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
 }
 
-export function input(document, monopoly_1, speed, overLayElements, tile, overLay){
+export function input(document, monopoly_1, speed, overLayElements, tile, overLay) {
     document.addEventListener("keydown", function (event) {
         // Check the key code of the pressed key
         switch (event.key) {
@@ -103,7 +120,7 @@ export function input(document, monopoly_1, speed, overLayElements, tile, overLa
                 tile += 1;
                 tile %= 40;
                 moveTo(monopoly_1, tile);
-    
+
                 break;
             case "KeyD":
                 tile -= 1;
@@ -116,10 +133,10 @@ export function input(document, monopoly_1, speed, overLayElements, tile, overLa
             case "KeyL":
                 overLay *= -1;
                 for (let i = 0; i < overLayElements.length; i++) {
-                    if (overLay==1){
-                    overLayElements[i].style.visibility = "visible";
-    
-                    }else{
+                    if (overLay == 1) {
+                        overLayElements[i].style.visibility = "visible";
+
+                    } else {
                         overLayElements[i].style.visibility = "hidden";
                     }
                 }
@@ -127,3 +144,4 @@ export function input(document, monopoly_1, speed, overLayElements, tile, overLa
         }
     });
 }
+

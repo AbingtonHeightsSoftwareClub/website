@@ -13,6 +13,7 @@ from extensions import socketio
 from flask_login import current_user, login_user, logout_user, login_required
 
 from urllib.parse import urlsplit
+from flask_socketio import emit
 
 
 def register_routes(app, db: SQLAlchemy):
@@ -155,6 +156,7 @@ def register_routes(app, db: SQLAlchemy):
             player.set_password(form.password.data)
             db.session.add(player)
             db.session.commit()
+            flash('Congratulations, you are now a registered user!')
             return redirect("login")
         return render_template("register.html", form=form)
 
@@ -162,8 +164,6 @@ def register_routes(app, db: SQLAlchemy):
 def register_sockets(app, db: SQLAlchemy):
     @socketio.on("connect")
     def connect():
-        print("Client connected")
-
-    @socketio.on("user_join")
-    def handle_user_join(username):
-        print(f"User {username} joined")
+        if current_user.is_authenticated:
+            emit("join",
+                 {"message": f"Player {current_user.title} has joined."}, broadcast=True)
