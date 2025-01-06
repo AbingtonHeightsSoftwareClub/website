@@ -5,28 +5,23 @@
   --hover-color: #807c7cc7;
 }
 
-.monopoly {
-  position: absolute;
-  margin: auto;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  text-align: center;
-  z-index: -1;
-  height: var(--size);
-}
+
 
 body {
   height: 100%;
   overflow-y: hidden;
- }
+}
 
 
 .piece {
-  height: 50px;
+  height: 30px;
   z-index: 3;
-  position: absolute;
+  visibility: visible;
+  position:relative;
+  top:0rem;
+  bottom:0rem;
+  left:0rem;
+  right:0rem;
 }
 
 #gameboard {
@@ -35,51 +30,76 @@ body {
   background-image: url("../img/monopoly.svg");
   background-repeat: no-repeat;
   background-size: contain;
-  display: flex;
-  flex-wrap: wrap;
   margin: 0 auto;
-  
+
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: flex-start;
+  /* NEW */
+
+
+
+
+
+
 }
 
 .corner {
   height: calc(2.4 * var(--inches));
-  width: calc(2.5 * var(--inches));
+  width: calc(2.6 * var(--inches));
   background-color: var(--color);
   outline: 0.05rem solid black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 }
 
 .tile {
   height: calc(2.4 * var(--inches));
-  width: calc(1.5 * var(--inches));
+  width: calc(1.48 * var(--inches));
   background-color: var(--color);
   outline: 0.05rem solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
 
 }
 
-.ltile {
-  height: calc(1.5 * var(--inches));
-  width: calc(2.5 * var(--inches));
-  background-color: var(--color);
-  outline: 0.05rem solid black;
 
-}
+
+
+.ltile,
 .rtile {
   height: calc(1.5 * var(--inches));
-  width: calc(2.5 * var(--inches));
+  width: calc(2.55 * var(--inches));
   background-color: var(--color);
   outline: 0.05rem solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
 
 }
 
-.center{
-  height:calc(1.5*var(--inches));
-  width:calc(13.5*var(--inches));
+
+.center {
+  height: calc(1.5*var(--inches));
+  width: calc(13.4*var(--inches));
   background-color: transparent;
+  display: flex;
+
 }
 
-.corner:hover, .tile:hover, .ltile:hover, .rtile:hover{
+.corner:hover,
+.tile:hover,
+.ltile:hover,
+.rtile:hover {
   background-color: var(--hover-color);
 }
-
-
