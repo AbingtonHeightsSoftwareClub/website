@@ -18,6 +18,11 @@ from flask_socketio import emit
 # Routes are registered as a function, so we don't get circular imports.
 # If it wasn't a function, it would get redefined multiple times, and Flask would throw errors.
 def register_routes(app, db: SQLAlchemy):
+    @app.after_request
+    def set_headers(response):
+        response.headers["Referrer-Policy"] = 'no-referrer'
+        return response
+
     """
     @app.route("/path/to/location", methods=[methods])
 
@@ -209,3 +214,7 @@ def register_sockets(app, db: SQLAlchemy):
         if current_user.is_authenticated:
             emit("join",
                  {"message": f"Player {current_user.title} has joined."}, broadcast=True)
+    @socketio.test("test")
+    def test():
+        emit("test_complete",
+             {"message": "test complete"}, broadcast=True)
