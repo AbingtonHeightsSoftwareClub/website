@@ -1,8 +1,16 @@
 import * as mono from "./monopoly_functions.js";
-const socket = io({autoConnect: true});
-socket.on("join", (message) => {
+const socket = io({autoConnect: false});
+document.getElementById("join").addEventListener("click", function () {
+    socket.connect();
+    socket.on("join", (message) => {
     console.log(message.message);
 });
+    document.getElementById("join").remove();
+})
+
+socket.on("test_complete") => {
+console.log("good");
+}
 const gameBoard = document.querySelector("#gameboard");
 const playerDisplay = document.querySelector("#player");
 const infoDiplay = document.querySelector("#info-display");
