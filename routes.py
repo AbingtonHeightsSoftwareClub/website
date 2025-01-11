@@ -211,7 +211,7 @@ def register_sockets(app, db: SQLAlchemy):
         if current_user.is_authenticated:
             emit("join",
                  {"message": f"Player {current_user.title} has joined."}, broadcast=True)
-    @socketio.test("test")
+    @socketio.on("test")
     def test():
         emit("test_complete",
              {"message": "test complete"}, broadcast=True)
