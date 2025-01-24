@@ -8,9 +8,9 @@ document.getElementById("join").addEventListener("click", function () {
     document.getElementById("join").remove();
 })
 
-socket.on("test_complete") => {
+socket.on("test_complete", (message) => {
 console.log("good");
-}
+});
 const gameBoard = document.querySelector("#gameboard");
 const playerDisplay = document.querySelector("#player");
 const infoDiplay = document.querySelector("#info-display");
