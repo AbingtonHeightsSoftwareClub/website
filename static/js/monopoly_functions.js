@@ -41,29 +41,6 @@ export function createBoard(pieces, gameBoard, ids) {
     }
 }
 
-export function leftHandler(monopoly_1, speed) {
-    let currentLeft = parseInt(monopoly_1.style.left, 10); // Get current left position
-    monopoly_1.style.left = currentLeft - speed + "px"; // Move left by speed (negative direction)
-    console.log(monopoly_1.style.left);
-}
-
-export function rightHandler(monopoly_1, speed) {
-    let currentLeft = parseInt(monopoly_1.style.left, 10); // Get current left position
-    monopoly_1.style.left = currentLeft + speed + "px"; // Move right by speed (positive direction)
-    console.log(monopoly_1.style.left);
-}
-
-export function upHandler(monopoly_1, speed) {
-    let currentTop = parseInt(monopoly_1.style.top, 10); // Get current top position
-    monopoly_1.style.top = currentTop - speed + "px"; // Move up by speed (negative direction)
-    console.log(monopoly_1.style.top);
-}
-
-export function downHandler(monopoly_1, speed) {
-    let currentTop = parseInt(monopoly_1.style.top, 10); // Get current top position
-    monopoly_1.style.top = currentTop + speed + "px"; // Move down by speed (positive direction)
-    console.log(monopoly_1.style.top);
-}
 
 export function moveTo(monopoly_1, tile) {
     let pos = document.getElementById(tile);
@@ -75,12 +52,10 @@ export function moveTo(monopoly_1, tile) {
     monopoly_1.style.right = "0rem";
     if (0 <= tile && tile <= 10) {
         monopoly_1.style.top=size;
-        console.log(monopoly_1.style.top);
 
 
     } else if (11 <= tile && tile <= 20) {
         monopoly_1.style.left="-1rem";
-        console.log(monopoly_1.style.left);
 
     } else if (21 <= tile && tile <= 30) {
         monopoly_1.style.top="-1.5rem";
@@ -89,35 +64,17 @@ export function moveTo(monopoly_1, tile) {
     }
 }
 
-export function getElementCenter(element) {
-    const rect = element.getBoundingClientRect();
-    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
-}
 
-export function input(document, monopoly_1, speed, overLayElements, tile, overLay) {
+
+export function input(document, monopoly_1, speed, overLayElements, tile, overLay, socket) {
     document.addEventListener("keydown", function (event) {
         // Check the key code of the pressed key
-        switch (event.key) {
-            case "ArrowUp":
-                upHandler(monopoly_1, speed);
-                break;
-            case "ArrowDown":
-                downHandler(monopoly_1, speed);
-                break;
-            case "ArrowLeft":
-                leftHandler(monopoly_1, speed);
-                break;
-            case "ArrowRight":
-                rightHandler(monopoly_1, speed);
-                break;
-            default:
-                break;
-        }
         switch (event.code) {
             case "KeyA":
                 tile += 1;
                 tile %= 40;
                 moveTo(monopoly_1, tile);
+                socket.emit("roll", {"message": tile})
 
                 break;
             case "KeyD":
@@ -127,6 +84,7 @@ export function input(document, monopoly_1, speed, overLayElements, tile, overLa
                 }
                 tile % 40;
                 moveTo(monopoly_1, tile);
+                socket.emit("roll", {"message": tile})
                 break;
             case "KeyL":
                 overLay *= -1;
@@ -140,6 +98,8 @@ export function input(document, monopoly_1, speed, overLayElements, tile, overLa
                 }
                 break;
         }
+
+        
     });
 }
 
