@@ -222,3 +222,9 @@ def register_sockets(app, db: SQLAlchemy):
     def test():
         emit("test_complete",
              {"message": "test complete"}, broadcast=True)
+
+
+    @socketio.on("roll")
+    def roll(data):
+        emit("roll",
+             {"tile": f"{data['message']}"}, broadcast=True)
