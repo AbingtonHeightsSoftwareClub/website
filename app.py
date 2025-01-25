@@ -5,6 +5,9 @@ from config import Config
 import pandas as pd
 from extensions import socketio
 from flask_login import LoginManager
+import eventlet
+
+eventlet.monkey_patch()
 
 db = SQLAlchemy()
 login = LoginManager()

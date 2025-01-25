@@ -105,6 +105,13 @@ def register_routes(app, db: SQLAlchemy):
                 players = Player.query.all()
                 properties = Property.query.all()
                 return render_template('creation.html', players=players, properties=properties)
+        else:
+            # We grab all the players and properties from the database.
+            players = Player.query.all()
+            properties = Property.query.all()
+
+            # And we give the user an html file filled out with those players and properties.
+            return render_template('creation.html', players=players, properties=properties)
 
     # Fancy name for website logo in the tab
     @app.route("/favicon.ico")
