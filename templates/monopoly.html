@@ -8,10 +8,8 @@
 {% endblock %}
 <img class="piece" src="{{url_for('static', filename='img/monopoly_piece_1.svg')}}" id="monopoly-1">
 <div id="gameboard"></div>
-<p>It is <span id="player"></span>'s turn.</p>
-<p id="info-display"></p>
+<p>It is <span id="player">{{name}}</span>'s turn.</p>
 
-<button id="join">Join</button>
 
 <script
     type="module"

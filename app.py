@@ -1,3 +1,7 @@
+import eventlet
+
+eventlet.monkey_patch()
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -5,9 +9,8 @@ from config import Config
 import pandas as pd
 from extensions import socketio
 from flask_login import LoginManager
-import eventlet
 
-eventlet.monkey_patch()
+
 
 db = SQLAlchemy()
 login = LoginManager()

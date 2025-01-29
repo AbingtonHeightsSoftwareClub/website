@@ -1,10 +1,5 @@
 import * as mono from "./monopoly_functions.js";
-const socket = io({autoConnect: false});
-document.getElementById("join").addEventListener("click", function () {
-    socket.connect();
-    
-    document.getElementById("join").remove();
-})
+const socket = io({autoConnect: true});
 
 socket.on("join", (data) => {
     console.log(data.message);
