@@ -138,7 +138,7 @@ def register_routes(app, db: SQLAlchemy):
     @app.route("/monopoly")
     @login_required
     def monopoly():
-        return render_template("monopoly.html")
+        return render_template("monopoly.html", name=current_user.title)
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
