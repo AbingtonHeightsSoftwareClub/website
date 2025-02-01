@@ -66,7 +66,7 @@ export function moveTo(monopoly_1, tile) {
 
 
 
-export function input(document, monopoly_1, speed, overLayElements, tile, overLay, socket) {
+export function input(document, monopoly_1, overLayElements, tile, overLay, socket) {
     document.addEventListener("keydown", function (event) {
         // Check the key code of the pressed key
         switch (event.code) {

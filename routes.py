@@ -1,4 +1,5 @@
 import os
+import random
 
 import sqlalchemy as sa
 from flask import render_template, request, redirect, url_for, flash
@@ -138,7 +139,7 @@ def register_routes(app, db: SQLAlchemy):
     @app.route("/monopoly")
     @login_required
     def monopoly():
-        return render_template("monopoly.html", name=current_user.title)
+        return render_template("monopoly.html")
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
@@ -215,9 +216,10 @@ def register_sockets(app, db: SQLAlchemy):
     @socketio.on("connect")
     def connect():
         # Sends a message named joined. It is broadcasted to everyone.
+
         if current_user.is_authenticated:
             emit("join",
-                 {"message": f"Player {current_user.title} has joined."}, broadcast=True)
+                 {"message": f"Player {current_user.title} has joined.", "title": current_user.title}, broadcast=True)
     @socketio.on("test")
     def test():
         emit("test_complete",
@@ -226,5 +228,4 @@ def register_sockets(app, db: SQLAlchemy):
 
     @socketio.on("roll")
     def roll(data):
-        emit("roll",
-             {"tile": f"{data['message']}"}, broadcast=True)
+        pass
