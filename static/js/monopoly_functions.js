@@ -62,6 +62,7 @@ export function moveTo(monopoly_1, tile) {
     } else {
         monopoly_1.style.left=size;
     }
+
 }
 
 
@@ -74,7 +75,7 @@ export function input(document, monopoly_1, overLayElements, tile, overLay, sock
                 tile += 1;
                 tile %= 40;
                 moveTo(monopoly_1, tile);
-                socket.emit("roll", {"message": tile})
+                socket.emit("roll", {"position": tile})
 
                 break;
             case "KeyD":
@@ -84,7 +85,7 @@ export function input(document, monopoly_1, overLayElements, tile, overLay, sock
                 }
                 tile % 40;
                 moveTo(monopoly_1, tile);
-                socket.emit("roll", {"message": tile})
+                socket.emit("roll", {"position": tile})
                 break;
             case "KeyL":
                 overLay *= -1;

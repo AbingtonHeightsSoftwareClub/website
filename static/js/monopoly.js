@@ -18,6 +18,10 @@ socket.on("join", (data) => {
     mono.input(document, monopoly_1, overLayElements, tile, overLay, socket);
 });
 
+socket.on("rolled", (data)=>{
+    console.log(data)
+})
+
 socket.on("roll_broadcast", (data) => {
     
 })

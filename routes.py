@@ -1,3 +1,4 @@
+# noinspection PyPackageRequirements
 import os
 import random
 
@@ -228,4 +229,6 @@ def register_sockets(app, db: SQLAlchemy):
 
     @socketio.on("roll")
     def roll(data):
-        pass
+        print(data)
+        print(current_user.id)
+        emit("rolled", {"user": current_user.title, "position": data["position"]}, broadcast=True, skip_sid=current_user.id)
