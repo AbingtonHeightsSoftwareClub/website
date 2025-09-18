@@ -1,30 +1,46 @@
-{% extends "base.html" %} {%block title%}Monopoly {%endblock%} {% block content
-%} {%block js%}
+{% extends "base.html" %}
+
+{% block title %} Register {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{url_for('static', filename='css/monopoly.css')}}" />
+<main>
+    <div class="table stop">
+        <div class="frame">
+            <div class="corner tl" style="--order:1" id="20">
+                <div>free <span>🅿️</span> parking</div>
+            </div>
+            <div class="corner tr" style="--order:11" id="30">
+                <div>go to <span>👮</span> jail</div>
+            </div>
+            <div class="corner bl" style="--order:31" id="10">
+                <div>in <span>🗝</span> jail</div>
+            </div>
+            <div class="corner br" style="--order:41" id="0">
+                <div><em>collect <br/> £200 salary as you pass</em> go <span>↖️</span></div>
+            </div>
+            <div class="center" style="--order:13">
+                <div class="logo">monopoly</div>
+                <div class="cards community">community chest</div>
+                <div class="cards chance">chance</div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
 <script
-    src="https://cdn.socket.io/4.7.5/socket.io.min.js"
-    integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
-    crossorigin="anonymous"
+        src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+        integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+        crossorigin="anonymous"
 ></script>
+<script
+        type="module"
+        src="{{url_for('static', filename='js/monopoly.js')}}"
+></script>
+
+
+
 {% endblock %}
-<img class="piece" src="{{url_for('static', filename='img/monopoly_piece_1.svg')}}" id="monopoly-1">
-<div id="gameboard"></div>
-
-
-<p>It is <span id="player"></span>'s turn.</p>
-
-
-<script
-    type="module"
-    src="{{url_for('static', filename='js/monopoly.js')}}"
-></script>
-
-
-<link
-    rel="stylesheet"
-    href="{{url_for('static', filename='css/monopoly.css')}}"
-/>
-
-
-
-
-{% endblock%}
