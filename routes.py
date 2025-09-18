@@ -41,6 +41,7 @@ def register_routes(app, db: SQLAlchemy):
     It means both of those paths point to the same function/webpage.
     """
 
+
     # Home and / are used interchangeably, so we led both of them point to the current home page.
     # We can change it to a more official home page in the future.
     @app.route("/home", methods=["GET", "POST"])
@@ -228,7 +229,11 @@ def register_sockets(app, db: SQLAlchemy):
 
 
     @socketio.on("roll")
-    def roll(data):
-        print(data)
-        print(current_user.id)
-        emit("rolled", {"user": current_user.title, "position": data["position"]}, broadcast=True, skip_sid=current_user.id)
+    def roll():
+
+        old_position = current_user.position
+        roll = random.randint(1, 6)+random.randint(1, 6)
+        current_user.position = (old_position+roll)%39
+        print(current_user.position)
+        db.session.commit()
+        emit("rolled", {"user": current_user.title, "current_position": current_user.position, "old_position":old_position, "roll": roll}, broadcast=True)
