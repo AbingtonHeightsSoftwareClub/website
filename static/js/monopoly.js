@@ -1,28 +1,21 @@
 
-
+const display = document.getElementById("console");
 const socket = io({ autoConnect: true });
 
 
 
 socket.on("join", (data) => {
     console.log(data.message);
+    display.innerHTML = data.message + " Press R to roll.";
 });
 
-socket.on("rolled", (data)=>{
-    console.log(data)
-})
-
-socket.on("roll_broadcast", (data) => {
-    
-})
+socket.on("rolled", (data) => {
 
 
-
-socket.on("join", (data) => {
-    console.log(data.message);
+    console.log(data["current_position"]);
+    display.innerHTML = JSON.stringify(data);
+    document.getElementById(data["current_position"]).appendChild(player);
 });
-
-
 
 
 
@@ -84,12 +77,7 @@ document.getElementById("2").appendChild(player);
 
 
 
-socket.on("rolled", (data) => {
 
-
-    console.log(data["current_position"]);
-    document.getElementById(data["current_position"]).appendChild(player);
-});
 
 
 

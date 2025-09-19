@@ -17,7 +17,6 @@
 
     main {
         display: block;
-        position: absolute;
         width: calc(100% - 40px);
         height: calc(100% - 40px);
         top: 20px;
@@ -27,8 +26,6 @@
         font-family: "Hammersmith One";
         color: #2e464d;
         border-radius: 20px;
-        background: #c0e3e2;
-        perspective: 1000px;
     }
 
     main:before {

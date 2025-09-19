@@ -19,9 +19,8 @@ from flask_socketio import emit
 
 # Routes are registered as a function, so we don't get circular imports.
 # If it wasn't a function, it would get redefined multiple times, and Flask would throw errors.
+
 def register_routes(app, db: SQLAlchemy):
-
-
     """
     @app.route("/path/to/location", methods=[methods])
 
@@ -41,7 +40,6 @@ def register_routes(app, db: SQLAlchemy):
     It means both of those paths point to the same function/webpage.
     """
 
-
     # Home and / are used interchangeably, so we led both of them point to the current home page.
     # We can change it to a more official home page in the future.
     @app.route("/home", methods=["GET", "POST"])
@@ -49,66 +47,6 @@ def register_routes(app, db: SQLAlchemy):
     def creation():
         # If a user goes to the webpage
         if request.method == "GET":
-
-            # We grab all the players and properties from the database.
-            players = Player.query.all()
-            properties = Property.query.all()
-
-            # And we give the user an html file filled out with those players and properties.
-            return render_template('creation.html', players=players, properties=properties)
-
-        # If a user fills out a form
-        elif request.method == "POST":
-
-
-            # If they're reloading the properties
-            if "property" in request.form:
-                properties = Property.query.all()
-                # If no properties currently exist in the database, read them from the csv file
-                if len(properties) == 0:
-                    data = pd.read_csv("properties.csv", index_col=0)
-                    for title in data.index.values:
-                        db.session.add(Property(title=title,
-                                                price=int(data.loc[title][0]),
-                                                rent_no_set=int(data.loc[title][1]),
-                                                rent_color_set=int(data.loc[title][2]),
-                                                rent_1_house=int(data.loc[title][3]),
-                                                rent_2_house=int(data.loc[title][4]),
-                                                rent_3_house=int(data.loc[title][5]),
-                                                rent_4_house=int(data.loc[title][6]),
-                                                rent_hotel=int(data.loc[title][7]),
-                                                building_cost=int(data.loc[title][8]),
-                                                mortgage=int(data.loc[title][9]),
-                                                unmortgage=int(data.loc[title][10]),
-                                                color=data.loc[title].iloc[-1]))
-                    db.session.commit()
-                    players = Player.query.all()
-                    properties = Property.query.all()
-                    return render_template('creation.html', players=players, properties=properties)
-
-                # Otherwise just grab them from the database
-                else:
-                    players = Player.query.all()
-                    properties = Property.query.all()
-                    return render_template('creation.html', players=players, properties=properties)
-
-            # If they are making a player buy a property
-            elif "buy" in request.form:
-                # database.query.filter(database_name.property==something)
-                # Goes through every record(row) in the database_name and if it satisfies the constraint, adds it to a list
-
-                # In these cases, since there will only be one instance of each, first just takes it out of the list
-                player = Player.query.filter(Player.title == request.form.get("buyer")).first()
-                property = Property.query.filter(Property.title == request.form.get("sold")).first()
-                property.player_id = player.id
-                # Efficiently alters the database with the new information
-                db.session.commit()
-                # Even though the players didn't change, the html file needs to see the data again,
-                # so we grap the data again
-                players = Player.query.all()
-                properties = Property.query.all()
-                return render_template('creation.html', players=players, properties=properties)
-        else:
             # We grab all the players and properties from the database.
             players = Player.query.all()
             properties = Property.query.all()
@@ -169,12 +107,12 @@ def register_routes(app, db: SQLAlchemy):
             """
             Since users are often redirected to login from account protected urls, 
             they need to be redirected back to where they were from.
-            
+
             That is done by adding /?next=/path/to/location
             to the url.
-            
+
             <<not next_page>> is true when there is no next page(aka home)
-            
+
             urlsplit(next_page).netloc != ""
             Means, split the url into its subcomponents, get its netloc(amazon.com, google.com) if it is not blank, 
             redirect to home. That is a cybersecurity measure. It the netloc isn't empty, it could be a hacker trying to 
@@ -212,28 +150,3 @@ def register_routes(app, db: SQLAlchemy):
             return redirect("login")
         # Sends form data to be inserted by templating engine
         return render_template("register.html", form=form)
-
-
-def register_sockets(app, db: SQLAlchemy):
-    @socketio.on("connect")
-    def connect():
-        # Sends a message named joined. It is broadcasted to everyone.
-
-        if current_user.is_authenticated:
-            emit("join",
-                 {"message": f"Player {current_user.title} has joined.", "title": current_user.title}, broadcast=True)
-    @socketio.on("test")
-    def test():
-        emit("test_complete",
-             {"message": "test complete"}, broadcast=True)
-
-
-    @socketio.on("roll")
-    def roll():
-
-        old_position = current_user.position
-        roll = random.randint(1, 6)+random.randint(1, 6)
-        current_user.position = (old_position+roll)%39
-        print(current_user.position)
-        db.session.commit()
-        emit("rolled", {"user": current_user.title, "current_position": current_user.position, "old_position":old_position, "roll": roll}, broadcast=True)

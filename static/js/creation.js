@@ -17,19 +17,3 @@ function deletePerson(id) {
       console.error("Error during fetching:", error);
     });
 }
-
-function deleteProperty() {
-  fetch("/delete_property", {
-    method: "DELETE",
-  })
-    .then((response) => {
-      if (response.ok) {
-        window.location.reload();
-      } else {
-        console.error("Failed to delete item with id: ");
-      }
-    })
-    .catch((error) => {
-      console.error("Error during fetching:", error);
-    });
-}
