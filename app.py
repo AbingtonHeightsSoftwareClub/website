@@ -27,8 +27,8 @@ def create_app():
     login.login_view = "login"
 
     # Importing like this stops circular imports
-    from routes.monopoly import register_routes
-    from routes.sockets import register_sockets
+    from monopoly.routes import register_routes
+    from monopoly.sockets import register_sockets
     # Imports the views/webpage routes
     register_routes(app, db)
     # Imports the socketIO connections
