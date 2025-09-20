@@ -43,17 +43,17 @@ def register_routes(app, db: SQLAlchemy):
 
     # Home and / are used interchangeably, so we led both of them point to the current home page.
     # We can change it to a more official home page in the future.
-    @app.route("/home", methods=["GET", "POST"])
-    @app.route("/", methods=["GET", "POST"])
-    def creation():
+    @app.route("/home")
+    @app.route("/")
+    def home():
         # If a user goes to the webpage
-        if request.method == "GET":
-            # We grab all the players and properties from the database.
-            players = Player.query.all()
-            properties = Property.query.all()
 
-            # And we give the user an html file filled out with those players and properties.
-            return render_template('home.html', players=players, properties=properties)
+        # We grab all the players and properties from the database.
+        players = Player.query.all()
+        properties = Property.query.all()
+
+        # And we give the user an html file filled out with those players and properties.
+        return render_template('home.html', players=players, properties=properties)
 
     # Fancy name for website logo in the tab
     @app.route("/favicon.ico")
