@@ -1,3 +1,10 @@
+#console {
+    height: calc(20%);
+    border-color: #000000;
+    border-radius: 20px;
+    display: block;
+}
+
 .piece {
         height: 50px;
         z-index: 3;
@@ -17,28 +24,14 @@
 
     main {
         display: block;
-        width: calc(100% - 40px);
-        height: calc(100% - 40px);
-        top: 20px;
-        left: 20px;
-        bottom: 40px;
-        right: 40px;
+        width: calc(80% - 40px);
+        height: calc(800% - 40px);
         font-family: "Hammersmith One";
         color: #2e464d;
         border-radius: 20px;
     }
 
-    main:before {
-        content: "click me!";
-        display: block;
-        position: absolute;
-        width: 100%;
-        bottom: 60px;
-        left: 0px;
-        text-align: center;
-        text-transform: uppercase;
-        color: rgba(46, 70, 77, 0.2);
-    }
+
 
     main .table {
         display: block;
@@ -49,7 +42,6 @@
         width: 868px;
         height: 868px;
         border-radius: 14px;
-        transition: 2s;
         cursor: pointer;
     }
 
