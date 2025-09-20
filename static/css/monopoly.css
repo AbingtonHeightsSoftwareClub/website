@@ -1,5 +1,6 @@
 #console {
     height: calc(20%);
+    width: calc(30%);
     border-color: #000000;
     border-radius: 20px;
     display: block;
