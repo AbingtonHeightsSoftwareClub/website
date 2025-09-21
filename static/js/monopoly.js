@@ -6,21 +6,22 @@ const socket = io({ autoConnect: true });
 socket.on("join", (data) => {
     console.log(data.message);
     display.innerHTML = data.message + " Press R to roll.";
-    const board = document.getElementById("board");
-    let nav_height = parseInt(document.defaultView.getComputedStyle(document.getElementsByTagName("nav")[0]).height, 10);
-    let console_height = parseInt(document.defaultView.getComputedStyle(document.getElementById("console")).height, 10);
-    let window_height = window.screen.height;
-    console.log(console_height);
-    board.style.scale=String(1-(nav_height+console_height)/window_height);
+
 });
 
 socket.on("rolled", (data) => {
 
 
-    console.log(data["current_position"]);
+
     display.innerHTML = JSON.stringify(data);
     document.getElementById(data["current_position"]).appendChild(player);
-
+    const board = document.getElementById("board");
+    let nav_height = parseInt(document.defaultView.getComputedStyle(document.getElementsByTagName("nav")[0]).height, 10);
+    let console_height = parseInt(document.defaultView.getComputedStyle(document.getElementById("console")).height, 10);
+    let window_height = window.innerHeight;
+    console.log(window_height);
+    console.log(console_height);
+    board.style.scale=String(1-(nav_height+console_height)/window_height);
 });
 
 
