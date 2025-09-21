@@ -1,5 +1,4 @@
 #console {
-    height: calc(20%);
     border-color: #000000;
     border-radius: 20px;
     display: block;
@@ -7,293 +6,103 @@
 }
 
 .piece {
-        height: 50px;
-        z-index: 3;
-        visibility: visible;
-        position: relative;
-        top: 1rem;
-        bottom: 1rem;
-        left: 0rem;
-        right: 0rem;
-        background: transparent !important;
-    }
+    height: 2rem;
+    position: absolute;
+    z-index: 3;
+    visibility: visible;
+    background: transparent !important;
+}
 
-    * {
-        box-sizing: border-box;
-        outline: 0px;
-        overflow:hidden;
-    }
+* {
+    margin: 0;
+    padding: 0;
+}
 
-    main {
+html {
+    height: 100%;
+    width: 100%;
+}
 
-        display: block;
-        width: calc(80% - 40px);
-        height: calc(800% - 40px);
-        font-family: "Hammersmith One";
-        color: #2e464d;
-        border-radius: 20px;
-    }
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
 
-
-
-    main .table {
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 868px;
-        height: 868px;
-        border-radius: 14px;
-        cursor: pointer;
-    }
+main {
+    height: 90%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% 90%;
+    overflow: hidden;
 
 
-    .frame {
-        display: grid;
-        grid: 100px repeat(9, 68px) 100px/100px repeat(9, 68px) 100px;
-        position: relative;
-        width: 100%;
-        height: 100%;
-        padding: 8px;
-        grid-gap: 4px;
-        border-radius: 14px;
-        background: #2e464d;
-    }
+}
 
-    .frame > div {
-        display: block;
-        position: relative;
-        grid-column: span 1;
-        order: var(--order);
-        background: #b2e0c8;
-    }
+.console {
+    background-color: #d05858;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
 
-    .frame > div .inside {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 68px;
-        height: 100px;
-        padding: 4px;
-        text-align: center;
-    }
+.board {
+    grid-row-start: 2;
+    grid-row-end: 2;
+    height: 100%;
+    margin: auto;
+    aspect-ratio: 1/1;
+    background-color: #46bfff;
+    display: grid;
+    grid-template-columns: 2.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 2.5fr;
+    grid-template-rows: 2.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 2.5fr;
+}
 
-    .frame > div .inside h2, .frame > div .inside strong {
-        width: 58px;
-        margin: 6px auto 12px auto;
-        text-align: center;
-        font-size: 8.5px;
-        line-height: 10px;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
+.center {
+    grid-column-start: 2;
+    grid-column-end: 11;
+    grid-row-start: 2;
+    grid-row-end: 11;
+    background-color: black;
+}
 
-    .frame > div .inside strong {
-        position: absolute;
-        left: 0px;
-        bottom: 8px;
-        width: 100%;
-        margin: 0px;
-    }
+.parking {
+    grid-column-start: 1;
+    grid-row-start: 1;
+    background-color: #e9c33d;
+}
 
-    .frame > div .inside span {
-        display: block;
-        width: 100%;
-        font-size: 34px;
-        line-height: 38px;
-    }
+.cop {
+    grid-column-start: 11;
+    grid-row-start: 1;
+    background-color: burlywood;
+}
 
-    .frame > div .inside:before {
-        content: "";
-        display: block;
-        width: 100%;
-        height: 20px;
-        border-radius: 2px 2px 1px 1px;
-    }
+.jail {
+    grid-column-start: 1;
+    grid-row-start: 11;
+    background-color: crimson;
+}
 
-    .frame > div.brown .inside:before {
-        background: #894c4b;
-    }
+.go {
+    grid-column-start: 11;
+    grid-row-start: 11;
+    background-color: blueviolet;
+}
 
-    .frame > div.sky .inside:before {
-        background: #46bfff;
-    }
+.item {
+    box-shadow: 0 0 0 5px orange inset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
 
-    .frame > div.pink .inside:before {
-        background: #f89aa9;
-    }
+.left {
+    transform: rotate(90deg);
+}
 
-    .frame > div.orange .inside:before {
-        background: #eda13d;
-    }
-
-    .frame > div.red .inside:before {
-        background: #d05858;
-    }
-
-    .frame > div.green .inside:before {
-        background: #079a97;
-    }
-
-    .frame > div.yellow .inside:before {
-        background: #e9c33d;
-    }
-
-    .frame > div.blue .inside:before {
-        background: #4b5c99;
-    }
-
-    .frame > div.none .inside:before {
-        display: none;
-    }
-
-    .frame > div.center {
-        grid-row: span 9;
-        grid-column: span 9;
-    }
-
-    .frame > div.top {
-        border-radius: 1px 1px 4px 4px;
-    }
-
-    .frame > div.top .inside {
-        transform: rotate(180deg);
-        transform-origin: 34px 50px;
-    }
-
-    .frame > div.left {
-        border-radius: 1px 4px 4px 1px;
-    }
-
-    .frame > div.left .inside {
-        transform: rotate(90deg);
-        transform-origin: 50px 50px;
-    }
-
-    .frame > div.right {
-        border-radius: 4px 1px 1px 4px;
-    }
-
-    .frame > div.right .inside {
-        transform: rotate(-90deg);
-        transform-origin: 34px 34px;
-    }
-
-    .frame > div.bottom {
-        border-radius: 4px 4px 1px 1px;
-    }
-
-    .frame > div.center {
-        position: relative;
-        border-radius: 4px;
-        background: #95cfad;
-    }
-
-    .frame > div.center .logo {
-        display: block;
-        position: absolute;
-        top: calc(50% - 60px);
-        left: calc(50% - 250px);
-        width: 500px;
-        height: 120px;
-        text-align: center;
-        line-height: 120px;
-        font-size: 86px;
-        text-transform: uppercase;
-        color: #fff;
-        animation: spin-45 1ms;
-        animation-play-state: paused;
-        transform-origin: 50% 50%;
-        border: 4px solid #d05858;
-        border-radius: 10px;
-        background: #d05858;
-    }
-
-    .frame > div.center .logo:before {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: calc(100% - 6px);
-        height: calc(100% - 6px);
-        border: 3px solid #fff;
-        border-radius: 7px;
-    }
-
-    .frame > div.center .logo:after {
-        content: "🎩";
-        display: block;
-        position: absolute;
-        top: -40px;
-        left: calc(50% - 40px);
-        width: 80px;
-        height: 80px;
-        transform-origin: 50% 50%;
-        font-size: 40px;
-        line-height: 80px;
-    }
-
-    .frame > div.center .cards {
-        display: block;
-        position: absolute;
-        width: 200px;
-        height: 120px;
-        text-align: center;
-        line-height: 120px;
-        text-transform: uppercase;
-        color: rgba(46, 70, 77, 0.5);
-        border: 4px dotted rgba(46, 70, 77, 0.5);
-    }
-
-    .frame > div.center .cards.community {
-        top: 125px;
-        left: 266px;
-        transform: rotate(135deg);
-        transform-origin: 0px 0px;
-    }
-
-    .frame > div.center .cards.chance {
-        bottom: 182px;
-        right: 40px;
-        transform: rotate(-45deg);
-        transform-origin: 100% 100%;
-    }
-
-    .frame > div.corner div {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transform-origin: 50% 50%;
-        text-align: center;
-        text-transform: uppercase;
-    }
-
-    .frame > div.corner div span {
-        display: block;
-        font-size: 30px;
-    }
-
-    .frame > div.corner.tl {
-        border-radius: 8px 1px 4px 1px;
-    }
-
-    .frame > div.corner.tr {
-        border-radius: 1px 8px 1px 4px;
-    }
-
-    .frame > div.corner.bl {
-        border-radius: 1px 4px 1px 8px;
-    }
-
-    .frame > div.corner.br {
-        border-radius: 4px 1px 8px 1px;
-    }
-
-    .frame > div.corner.br div em {
-        display: block;
-        font-size: 7px;
-        width: 70%;
-        margin: 0px auto;
-        font-style: normal;
-    }
+.right {
+    transform: rotate(270deg);
+}
