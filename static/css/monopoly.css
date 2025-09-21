@@ -24,6 +24,7 @@
     }
 
     main {
+
         display: block;
         width: calc(80% - 40px);
         height: calc(800% - 40px);
