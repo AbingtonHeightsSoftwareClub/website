@@ -25,7 +25,7 @@ def register_routes(app, db: SQLAlchemy):
         if current_user.is_authenticated:
             # Flash is a notification system. Flask automatically passes the data to the html file
             flash("Already logged in.")
-            return redirect(url_for('creation'))
+            return redirect(url_for('home'))
         # Creates the login form or grabs data (Depends on if already created or not)
         form = LoginForm()
         # If the form is correctly filled out
@@ -57,7 +57,7 @@ def register_routes(app, db: SQLAlchemy):
             """
             next_page = request.args.get("next")
             if not next_page or urlsplit(next_page).netloc != "":
-                next_page = url_for("creation")
+                next_page = url_for("home")
             return redirect(next_page)
 
         # Displayed when the user first visits the page.
@@ -67,15 +67,15 @@ def register_routes(app, db: SQLAlchemy):
     def logout():
         if not current_user.is_authenticated:
             flash("Not logged in.")
-            return redirect(url_for("creation"))
+            return redirect(url_for("home"))
         logout_user()
-        return redirect(url_for("creation"))
+        return redirect(url_for("home"))
 
     @app.route("/register", methods=["GET", "POST"])
     def register():
         if current_user.is_authenticated:
             flash("Already logged in.")
-            return redirect(url_for("creation"))
+            return redirect(url_for("home"))
         # Creates form to be sent to user or grabs data (Depends on if already created or not)
         form = RegistrationForm()
         if form.validate_on_submit():
