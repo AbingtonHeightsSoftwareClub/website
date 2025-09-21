@@ -1,7 +1,23 @@
 
 const display = document.getElementById("console");
+display.innerHTML = " Press R to roll.";
 const socket = io({ autoConnect: true });
+const board = document.getElementById("board");
+    board.style.transform="translate(-50%, -50%)";
+    let board_top = board.getBoundingClientRect().top;
+    let nav_height = parseInt(document.defaultView.getComputedStyle(document.getElementsByTagName("nav")[0]).height, 10);
+    let console_height = parseInt(document.defaultView.getComputedStyle(document.getElementById("console")).height, 10);
+    let console_bottom = document.getElementById("console").getBoundingClientRect().bottom;
+    let difference = board_top-console_bottom;
+    let window_height = window.innerHeight;
+    let scale = parseInt(document.defaultView.getComputedStyle(board).height)/(window.innerHeight+console_bottom+nav_height);
+    if (scale>1){
 
+    board.style.scale = String(1/scale);
+    }else{
+    board.style.scale = String(scale);
+
+    }
 
 socket.on("join", (data) => {
     console.log(data.message);
@@ -14,14 +30,10 @@ socket.on("rolled", (data) => {
 
 
     display.innerHTML = JSON.stringify(data);
+
     document.getElementById(data["current_position"]).appendChild(player);
-    const board = document.getElementById("board");
-    let nav_height = parseInt(document.defaultView.getComputedStyle(document.getElementsByTagName("nav")[0]).height, 10);
-    let console_height = parseInt(document.defaultView.getComputedStyle(document.getElementById("console")).height, 10);
-    let window_height = window.innerHeight;
-    console.log(window_height);
-    console.log(console_height);
-    board.style.scale=String(1-(nav_height+console_height)/window_height);
+
+
 });
 
 
