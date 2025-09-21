@@ -39,7 +39,7 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%) scale(0.8);
+        transform: translate(-50%, -50%);
         width: 868px;
         height: 868px;
         border-radius: 14px;
