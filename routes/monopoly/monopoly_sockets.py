@@ -33,3 +33,12 @@ def register_sockets(db: SQLAlchemy):
         emit("rolled",
              {"user": current_user.title, "current_position": current_user.position, "old_position": old_position,
               "roll": roll}, broadcast=True)
+    
+    @socketio.on("buy")
+    def buy():
+        try:
+            #this line does not work
+            property = Property.query.filter(current_user.position == Property.title).first()
+        except:
+            print(f"Unable to find property at position {current_user.position}")
+            return
