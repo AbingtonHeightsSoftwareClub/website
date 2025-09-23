@@ -30,17 +30,14 @@ def create_app():
     from routes.monopoly import monopoly_routes, monopoly_sockets
     from routes.auth import auth_routes
     from routes.home import home_routes
-    from routes.chatroom import chatroom_routes, chatroom_sockets
 
 
     # Imports the views/webpage routes
     home_routes.register_routes(app, db)
     auth_routes.register_routes(app, db)
     monopoly_routes.register_routes(app, db)
-    chatroom_routes.register_routes(app, db)
     # Imports the socketIO connections
     monopoly_sockets.register_sockets(db)
-    chatroom_sockets.register_sockets(db)
 
     # Database stuff
     migrate = Migrate(app, db, render_as_batch=True)
