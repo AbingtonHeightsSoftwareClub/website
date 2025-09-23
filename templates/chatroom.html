@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %} Chatroom {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{url_for('static', filename='css/chatroom.css')}}" />
+<main>
+<div class="chat-container">
+    <div class="chat-box" id="chat-box">
+        <!-- Messages will be appended here -->
+    </div>
+    <form id="chat-form">
+        <input type="text" id="message-input" placeholder="Type your message..." autocomplete="off" required />
+        <button type="submit">Send</button>
+    </form>
+</main>
+
+
+
+
+{% endblock %}
