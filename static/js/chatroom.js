@@ -38,22 +38,11 @@ socket.on('broadcast-message', (data) => {
     const messageElement = document.createElement('div');
     messageElement.className = 'chat-message';
 
-    // create the header for the user who sent it
-    const header = document.createElement('div');
-    header.className = 'chat-message-header';
-    const userSpan = document.createElement('span');
-    userSpan.className = 'chat-user';
-    userSpan.textContent = data.user;
-
-    header.appendChild(userSpan);
-
     // create the text of the message on all clients
     const body = document.createElement('div');
     body.className = 'chat-message-body';
-    body.textContent = data.message;
+    body.textContent = data.user + ": " + data.message;
 
-    // we ball
-    messageElement.appendChild(header);
     messageElement.appendChild(body);
     // make sure the chatbox is there before appending 
     if (chatBox) {

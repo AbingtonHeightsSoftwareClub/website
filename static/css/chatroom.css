@@ -7,3 +7,13 @@
     padding: 10px;
     background-color: #f3dcdcc0;
 }
+
+.chat-box {
+    height: 450px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 20px;
+    overflow: auto;
+}
