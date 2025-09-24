@@ -1,3 +1,6 @@
+import eventlet
+eventlet.monkey_patch()
+
 from typing import Optional
 from sqlalchemy import ForeignKey
 from sqlalchemy import String

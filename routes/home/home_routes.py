@@ -5,6 +5,7 @@ import random
 import sqlalchemy as sa
 from flask import render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy_utils import database_exists
 import pandas as pd
 
 from forms import LoginForm, RegistrationForm
@@ -46,6 +47,30 @@ def register_routes(app, db: SQLAlchemy):
     @app.route("/home")
     @app.route("/")
     def home():
+        if not database_exists("sqlite:///testdb.db"):
+            with app.app_context():
+                db.create_all()
+            data = pd.read_csv("properties.csv", index_col=0)
+            for property in Property.query:
+                db.session.delete(property)
+
+            for title in data.index.values:
+                property = Property(title=title,
+                                        price=int(data.loc[title].iloc[0]),
+                                        rent_no_set=int(data.loc[title].iloc[1]),
+                                        rent_color_set=int(data.loc[title].iloc[2]),
+                                        rent_1_house=int(data.loc[title].iloc[3]),
+                                        rent_2_house=int(data.loc[title].iloc[4]),
+                                        rent_3_house=int(data.loc[title].iloc[5]),
+                                        rent_4_house=int(data.loc[title].iloc[6]),
+                                        rent_hotel=int(data.loc[title].iloc[7]),
+                                        building_cost=int(data.loc[title].iloc[8]),
+                                        mortgage=int(data.loc[title].iloc[9]),
+                                        unmortgage=int(data.loc[title].iloc[10]),
+                                        position=int(data.loc[title].iloc[11]),
+                                        color=data.loc[title].iloc[-1])
+                db.session.add(property)
+            db.session.commit()
         # If a user goes to the webpage
 
         # We grab all the players and properties from the database.
