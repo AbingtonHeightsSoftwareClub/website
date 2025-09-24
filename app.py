@@ -3,6 +3,7 @@ import eventlet
 eventlet.monkey_patch()
 
 from flask import Flask
+import time
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
@@ -31,6 +32,7 @@ def create_app():
     from routes.auth import auth_routes
     from routes.home import home_routes
     from routes.chatroom import chatroom_routes
+    from routes.chatroom import chatroom_sockets
 
 
     # Imports the views/webpage routes
@@ -40,6 +42,7 @@ def create_app():
     chatroom_routes.register_routes(app, db)
     # Imports the socketIO connections
     monopoly_sockets.register_sockets(db)
+    chatroom_sockets.register_sockets(db)
 
     # Database stuff
     migrate = Migrate(app, db, render_as_batch=True)
