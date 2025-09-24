@@ -13,7 +13,7 @@
 ## Index
 
 1. Instance - Stores unreadable database file.
-2. Migrations - Stores many different files used to configure/create SQLAlchemy database. Not to be changed regularly. 
+2. Migrations - Stores many different files used to configure/create SQLAlchemy database. 
 3. Templates - Houses all HTML templates for each page that we serve to the user
 4. Static
      - js - JavaScript files to be accessed by the HTML templates in the templates folder.
