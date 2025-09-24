@@ -27,6 +27,25 @@ socket.on('connect', () => {
     console.log('Socket connected:', socket.id);
 });
 
+socket.on('join', (data) => {
+    // create the div for the join message on all clients
+    const messageElement = document.createElement('div');
+    messageElement.className = 'join-message';
+    
+    // create the text of the message on all clients
+    const body = document.createElement('div');
+    body.className = 'join-message-body';
+    body.textContent = data.message;
+    messageElement.appendChild(body);
+    // make sure the chatbox is there before appending 
+    if (chatBox) {
+        chatBox.appendChild(messageElement);
+    // if it ain't there then don't try to append nothin
+    } else {
+        console.warn('chatBox not available; dropping message', data);
+    }
+});
+
 socket.on('disconnect', (reason) => {
     console.log('Socket disconnected:', reason);
 });

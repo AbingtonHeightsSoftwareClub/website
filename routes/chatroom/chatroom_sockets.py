@@ -13,6 +13,12 @@ from flask_socketio import emit
 # If it wasn't a function, it would get redefined multiple times, and Flask would throw errors.
 
 def register_sockets(db: SQLAlchemy):
+    @socketio.on("connect")
+    def connect():
+        # Sends a message about who joined. It is broadcasted to everyone.
+        if current_user.is_authenticated:
+            emit("join",
+                 {"message": f"{current_user.title} has joined the chatroom."}, broadcast=True)
     @socketio.on("message-sent")
     def messageSent(message):
         # Sends a message sent by a user. It is broadcasted to everyone.
