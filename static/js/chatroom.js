@@ -43,7 +43,7 @@ socket.on('broadcast-message', (data) => {
     header.className = 'chat-message-header';
     const userSpan = document.createElement('span');
     userSpan.className = 'chat-user';
-    userSpan.textContent = data.user;
+    userSpan.textContent = data.user + ":"
 
     header.appendChild(userSpan);
 
