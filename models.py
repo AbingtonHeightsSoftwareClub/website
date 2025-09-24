@@ -71,12 +71,13 @@ class Property(db.Model):
     building_cost: Mapped[int] = mapped_column()
     mortgage: Mapped[int] = mapped_column()
     unmortgage: Mapped[int] = mapped_column()
+    position: Mapped[int] = mapped_column()
     # String(20) means the color has to be less than 20 characters long
     color: Mapped[str] = mapped_column(String(20))
 
     # The value of str(Property) is defined here. Useful for printing/debugging.
     def __str__(self):
-        return f"Title: {self.title}, Price: {self.price}"
+        return f"Title: {self.title}, Price: {self.price}, Position {self.position}"
 
 
 # This is necessary for the login system.
