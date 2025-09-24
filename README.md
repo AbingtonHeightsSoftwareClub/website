@@ -19,33 +19,33 @@
           `flask db migrate`
        
           `flask db upgrade`
-4. Templates - Houses all HTML templates for each page that we serve to the user
-5. Static
+3. Templates - Houses all HTML templates for each page that we serve to the user
+4. Static
      - js - JavaScript files to be accessed by the HTML templates in the templates folder.
      - css - Houses CSS stylesheets to be accessed by the HTML templates in the templates folder.
-6. Routes - Houses all URL extensions (i.e. /chatroom, /home, etc.)
+5. Routes - Houses all URL extensions (i.e. /chatroom, /home, etc.)
      - auth - /login, /logout, and /register, as well as some logic for authenticating users
      - chatroom - /chatroom
      - monopoly - /monopoly
      - home - / and /home (same thing)
-7. .gitignore - Use this file to make sure not to commit your cache information when contributing
-8. app.py - Creates the flask application
+6. .gitignore - Use this file to make sure not to commit your cache information when contributing
+7. app.py - Creates the flask application
      - **IMPORTANT**: if creating a new route or file, you **must** import the file in app.py **after** the original import block in the **second** import block. This prevents circular imports (**very bad things**)
-9. config.py - Configures SQLAlchemy database
+8. config.py - Configures SQLAlchemy database
      - **IMPORTANT**: When changing database structure, you must run:
        
           `flask db migrate`
        
           `flask db upgrade`
-11. extensions.py - Sets up the socketIO object (client to server & vice versa communication)
-12. forms.py - Stores templates for HTML forms as python code so that they can be properly authenticated (Mostly for login and registration purposes)
-13. models.py - Classes to be stored in the database. If new objects need to be stored they should be added here.
+9. extensions.py - Sets up the socketIO object (client to server & vice versa communication)
+10. forms.py - Stores templates for HTML forms as python code so that they can be properly authenticated (Mostly for login and registration purposes)
+11. models.py - Classes to be stored in the database. If new objects need to be stored they should be added here.
          - **IMPORTANT**: When changing database structure, you must run:
        
           `flask db migrate`
        
           `flask db upgrade`
-15. properties.csv - A spreadsheet of all monopoly properties to be accessed when the game runs (which is not currently functional as of 09/24/25)
-16. requirements.txt - A list of all required packages (see heading 2 in this README.md for usage)
-17. run.py - See heading 2
-18. wsgi.py - More socketIO configuration
+12. properties.csv - A spreadsheet of all monopoly properties to be accessed when the game runs (which is not currently functional as of 09/24/25)
+13. requirements.txt - A list of all required packages (see heading 2 in this README.md for usage)
+14. run.py - See heading 2
+15. wsgi.py - More socketIO configuration
