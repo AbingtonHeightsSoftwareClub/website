@@ -22,27 +22,15 @@ chatForm.addEventListener("submit", function(event) {
     messageInput.focus();
 });
 
-// debugging stuff to prevent more future headaches
-socket.on('connect', () => {
-    console.log('Socket connected:', socket.id);
-});
-
-socket.on('disconnect', (reason) => {
-    console.log('Socket disconnected:', reason);
-});
-
-// Server emits broadcast-message in chatroom_sockets.py
-socket.on('broadcast-message', (data) => {
-    console.log('Received broadcast-message:', data);
-    // create the div for the message on all clients
+function sendChatMessage(message) {
+    // create the div for the join message on all clients
     const messageElement = document.createElement('div');
-    messageElement.className = 'chat-message';
-
+    messageElement.className = 'join-message';
+    
     // create the text of the message on all clients
     const body = document.createElement('div');
-    body.className = 'chat-message-body';
-    body.textContent = data.user + ": " + data.message;
-
+    body.className = 'message-body';
+    body.textContent = message;
     messageElement.appendChild(body);
     // make sure the chatbox is there before appending 
     if (chatBox) {
@@ -51,6 +39,25 @@ socket.on('broadcast-message', (data) => {
     } else {
         console.warn('chatBox not available; dropping message', data);
     }
-    // in case too many messages to fit the box
-    chatBox.scrollTop = chatBox.scrollHeight;
+}
+// debugging stuff to prevent more future headaches
+socket.on('connect', () => {
+    console.log('Socket connected:', socket.id);
+});
+
+socket.on('join', (data) => {
+    sendChatMessage(data.message);
+});
+
+socket.on('disconnect', (reason) => {
+    console.log('Socket disconnected:', reason);
+});
+
+socket.on('leave', (data) => {
+    sendChatMessage(data.message);
+});
+
+// Server emits broadcast-message in chatroom_sockets.py
+socket.on('broadcast-message', (data) => {
+    sendChatMessage(data.user + ": " + data.message);
 });
