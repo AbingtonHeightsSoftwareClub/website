@@ -1,6 +1,6 @@
 import eventlet
-
 eventlet.monkey_patch()
+from extensions import socketio
 
 from flask import Flask
 import time
@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
 import pandas as pd
-from extensions import socketio
+
 from flask_login import LoginManager
 
 
