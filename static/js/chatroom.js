@@ -25,6 +25,7 @@ chatForm.addEventListener("submit", function(event) {
 // debugging stuff to prevent more future headaches
 socket.on('connect', () => {
     console.log('Socket connected:', socket.id);
+    socket.emit("load-messages", socket.id)              
 });
 
 socket.on('disconnect', (reason) => {

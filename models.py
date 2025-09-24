@@ -78,8 +78,18 @@ class Property(db.Model):
     def __str__(self):
         return f"Title: {self.title}, Price: {self.price}"
 
+class Message(db.Model):
+    __tablename__ = "messages"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user: Mapped[str] = mapped_column()
+    text: Mapped[str] = mapped_column()
+
+    def __str__(self):
+        return f"{self.user}: {self.text}"
 
 # This is necessary for the login system.
 @login.user_loader
 def load_player(id):
     return db.session.get(Player, int(id))
+
+

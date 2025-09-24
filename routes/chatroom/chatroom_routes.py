@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 
 from forms import LoginForm, RegistrationForm
-from models import Player, Property
+from models import Player, Property, Message
 from flask import send_from_directory
 from extensions import socketio
 from flask_login import current_user, login_user, logout_user, login_required
@@ -44,4 +44,13 @@ def register_routes(app, db: SQLAlchemy):
     @app.route("/chatroom")
     @login_required
     def chatroom():
+        return render_template("chatroom.html")
+    
+    # Deletes the chat db, bandaid solution rn but we'll change it later
+    @app.route("/delete_chats")
+    @login_required
+    def delete_chats():
+        for message in Message.query:
+            db.session.delete(message)
+        db.session.commit()
         return render_template("chatroom.html")
