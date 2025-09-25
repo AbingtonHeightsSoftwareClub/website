@@ -12,7 +12,7 @@
 
 ## Index
 
-1. Instance - Stores unreadable database file.
+1. Instance - Stores SQL database. It is stored in binary for efficiency, so you cannot read it without running an SQL server. You can do that in Pycharm.
 2. Migrations - Stores many different files used to configure/create SQLAlchemy database.
      - **IMPORTANT**: When changing database structure, you must run:
        
@@ -45,7 +45,7 @@
           `flask db migrate`
        
           `flask db upgrade`
-12. properties.csv - A spreadsheet of all monopoly properties to be accessed when the game runs (which is not currently functional as of 09/24/25)
+12. properties.csv - A spreadsheet of all monopoly properties to be loaded into the SQL database.
 13. requirements.txt - A list of all required packages (see heading 2 in this README.md for usage)
 14. run.py - See heading 2
 15. wsgi.py - More socketIO configuration
