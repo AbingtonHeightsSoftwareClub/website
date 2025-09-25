@@ -62,7 +62,7 @@ socket.on("join", (data) => {
 socket.on("rolled", (data) => {
     display.innerHTML = JSON.stringify(data);
 
-    let current_position = data["current_position"]);
+    let current_position = data["current_position"];
     // Player rolled and should be put on this tile
     let tile_to_go_to =  document.getElementById(data["current_position"]);
     // Player should be oriented the same as the text, so we put it in the span, with is called the child of the tile
