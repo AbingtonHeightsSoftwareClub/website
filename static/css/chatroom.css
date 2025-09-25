@@ -17,3 +17,8 @@
     border-radius: 20px;
     overflow: auto;
 }
+
+.timestamp {
+    font-size: 0.8em;
+    color: gray;
+}
