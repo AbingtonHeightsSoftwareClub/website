@@ -6,6 +6,7 @@ const display = document.getElementById("console");
 
 // grid references the monopoly board
 const grid = document.getElementsByClassName("board")[0];
+
 for (let i = 0; i < 36; i++) {
     // Adds tiles to monopoly, except for the already defined corners.
 
@@ -15,22 +16,31 @@ for (let i = 0; i < 36; i++) {
     let span = document.createElement("span");
 
     // Sets the text in the tile to its id, but since corners are not accounted for, its not completely accurate.
-    span.textContent = String(i)
+
     item.classList.add("item");
+
+
 
     if (i >= 9 && i <= 26) {
         if (i % 2 === 0) {
             // Rotates tiles on the right side, so the text faces the correct way
             span.classList.add("right")
+            item.id = String(32+(i-10)/2);
         } else {
             // Rotates tiles on the left  side, so the text faces the correct way
             span.classList.add("left");
+            item.id = String(24-(i-1)/2);
 
         }
     }
     // Sets the id, so javascript can reference it easily
-    item.id = String(i);
+    if (i<=8){
+        item.id = String(22+i);
+    }else if (i>26){
+        item.id = String(10-(i-27));
+    }
 
+    span.textContent = item.id;
     // Adds the text to the tiles
     item.append(span);
     // Adds the tile to the grid
