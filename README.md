@@ -1,4 +1,4 @@
-## Live Website URL: [ahsoftware.club](ahsoftware.club)
+## Live Website URL: [ahsoftware.club](https://www.ahsoftware.club)
 
 ## How to Run the Project Locally
 
@@ -40,7 +40,7 @@
 9. extensions.py - Sets up the socketIO object (client to server & vice versa communication)
 10. forms.py - Stores templates for HTML forms as python code so that they can be properly authenticated (Mostly for login and registration purposes)
 11. models.py - Classes to be stored in the database. If new objects need to be stored they should be added here.
-         - **IMPORTANT**: When changing database structure, you must run:
+    - **IMPORTANT**: When changing database structure, you must run:
        
           `flask db migrate`
        
