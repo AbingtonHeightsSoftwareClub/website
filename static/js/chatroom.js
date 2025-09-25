@@ -50,6 +50,7 @@ function sendChatMessage(message) {
 }
 // debugging stuff to prevent more future headaches
 socket.on('connect', () => {
+    socket.emit("load-messages", socket.id)  
     console.log('Socket connected:', socket.id);
 });
 
