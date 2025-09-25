@@ -27,6 +27,12 @@ function sendChatMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.className = 'join-message';
     
+    let time = new Date().toLocaleTimeString(); // Ex. 11:18:48 AM
+    const timestamp = document.createElement('span');
+    timestamp.className = 'timestamp';
+    timestamp.textContent = time;
+    messageElement.appendChild(timestamp);
+
     // create the text of the message on all clients
     const body = document.createElement('div');
     body.className = 'message-body';
