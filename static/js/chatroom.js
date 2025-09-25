@@ -39,6 +39,8 @@ function sendChatMessage(message) {
     } else {
         console.warn('chatBox not available; dropping message', data);
     }
+    // in case too many messages to fit the box
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 // debugging stuff to prevent more future headaches
 socket.on('connect', () => {
