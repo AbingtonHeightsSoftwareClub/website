@@ -70,24 +70,36 @@ main {
     grid-column-start: 1;
     grid-row-start: 1;
     background-color: #e9c33d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cop {
     grid-column-start: 11;
     grid-row-start: 1;
     background-color: burlywood;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .jail {
     grid-column-start: 1;
     grid-row-start: 11;
     background-color: crimson;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .go {
     grid-column-start: 11;
     grid-row-start: 11;
     background-color: blueviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .item {
