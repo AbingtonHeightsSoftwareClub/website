@@ -18,7 +18,7 @@
     overflow: auto;
 }
 
-.timesstamp {
-    font-size: 8px;
+.timestamp {
+    font-size: 0.8em;
     color: gray;
 }
