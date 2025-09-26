@@ -6,9 +6,12 @@
 }
 
 .piece {
-    height: 2rem;
+    display: flex;  
+    justify-content: center;  
+    align-items: center;
     position: absolute;
-    z-index: 3;
+    height: 2rem;
+    z-index: 4;
     visibility: visible;
     background: transparent !important;
 }
@@ -103,12 +106,20 @@ main {
 }
 
 .item {
+    display: flex;
     box-shadow: 0 0 0 5px orange inset;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
+}
+
+.span{
+    display: flex;  
+    justify-content: center;  
+    align-items: center;
+    position: absolute;
 }
 
 .left {

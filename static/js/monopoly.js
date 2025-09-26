@@ -17,6 +17,7 @@ for (let i = 0; i < 36; i++) {
 
     // Sets the text in the tile to its id, but since corners are not accounted for, its not completely accurate.
 
+    span.classList.add("span");
     item.classList.add("item");
 
 

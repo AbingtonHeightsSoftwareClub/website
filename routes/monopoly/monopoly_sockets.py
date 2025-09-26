@@ -26,11 +26,12 @@ def register_sockets(db: SQLAlchemy):
     @socketio.on("roll")
     def roll():
         old_position = current_user.position
+        print(current_user.position)
         roll = random.randint(1, 6) + random.randint(1, 6)
         current_user.position = (old_position + roll) % 41
         if current_user.position == 0:
             current_user.position = 1
-        print(current_user.position)
+        
         db.session.commit()
         emit("rolled",
              {"user": current_user.title, "current_position": current_user.position, "old_position": old_position,
