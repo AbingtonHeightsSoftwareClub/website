@@ -91,3 +91,13 @@ socket.on('leave', (data) => {
 socket.on('broadcast-message', (data) => {
     sendChatMessage(data.user + ": " + data.message);
 });
+
+// Server emits broadcast-message in chatroom_sockets.py
+socket.on('load-messages', (data) => {
+    chatBox.replaceChildren();
+
+    data["messages"].forEach(message => {
+        sendChatMessage(message.user + ": " + message.message);
+
+    })
+});
