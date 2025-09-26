@@ -4,6 +4,7 @@ const socket = io({autoConnect: true});
 const chatForm = document.getElementById("chat-form");
 const chatBox = document.getElementById("chat-box");
 const messageInput = document.getElementById("message-input");
+const userCount = document.getElementById("user-count")
 
 chatForm.addEventListener("submit", function(event) {
     // stops the form from refreshing the page on submit
@@ -54,8 +55,19 @@ socket.on('connect', () => {
     console.log('Socket connected:', socket.id);
 });
 
-socket.on('join', (data) => {
+socket.on('chatroom-join', (data) => {
     sendChatMessage(data.message);
+
+    // data.user is the string of the username, NOT the object
+    let currentUser = data.user;
+    // if the user isn't already in the list of connected users
+    if(!document.getElementById(currentUser)) {
+        // make a new div for the user's name in the user-count tab
+        const userIndicator = document.createElement('div');
+        userIndicator.id = currentUser;
+        userIndicator.textContent = currentUser;
+        userCount.appendChild(userIndicator)
+    }
 });
 
 socket.on('disconnect', (reason) => {
@@ -64,6 +76,15 @@ socket.on('disconnect', (reason) => {
 
 socket.on('leave', (data) => {
     sendChatMessage(data.message);
+
+    // data.user is the string of the username, NOT the object
+    let currentUser = data.user;
+    // if the user is already in the list of connected users
+    if(document.getElementById(currentUser)) {
+        // remove the current user
+        let userIndicator = document.getElementById(currentUser);
+        userIndicator.remove();
+    }
 });
 
 // Server emits broadcast-message in chatroom_sockets.py
