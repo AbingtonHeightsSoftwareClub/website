@@ -1,6 +1,8 @@
+alabaster==1.0.0
 alembic==1.14.0
 asttokens==3.0.0
 attrs==24.3.0
+babel==2.17.0
 backcall==0.2.0
 beautifulsoup4==4.12.3
 bidict==0.23.1
@@ -13,6 +15,7 @@ decorator==5.1.1
 defusedxml==0.7.1
 dnspython==2.7.0
 docopt==0.6.2
+docutils==0.21.2
 eventlet==0.39.0
 executing==2.1.0
 fastjsonschema==2.21.1
@@ -27,6 +30,7 @@ greenlet==3.2.4
 gunicorn==23.0.0
 h11==0.14.0
 idna==3.10
+imagesize==1.4.1
 ipython==8.12.3
 itsdangerous==2.2.0
 jedi==0.19.2
@@ -63,11 +67,20 @@ pytz==2024.2
 pyzmq==26.2.0
 referencing==0.35.1
 requests==2.32.3
+roman-numerals-py==3.1.0
 rpds-py==0.22.3
 setuptools==80.9.0
 simple-websocket==1.1.0
 six==1.17.0
+snowballstemmer==3.0.1
 soupsieve==2.6
+Sphinx==8.2.3
+sphinxcontrib-applehelp==2.0.0
+sphinxcontrib-devhelp==2.0.0
+sphinxcontrib-htmlhelp==2.1.0
+sphinxcontrib-jsmath==1.0.1
+sphinxcontrib-qthelp==2.0.0
+sphinxcontrib-serializinghtml==2.0.0
 SQLAlchemy==2.0.36
 SQLAlchemy-Utils==0.42.0
 stack-data==0.6.3

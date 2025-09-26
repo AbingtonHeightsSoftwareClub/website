@@ -14,11 +14,21 @@ from flask_socketio import emit
 
 def register_sockets(db: SQLAlchemy):
     @socketio.on("connect")
-    def connect():
+    def connect(id):
         # Sends a message about who joined. It is broadcasted to everyone.
         if current_user.is_authenticated:
             emit("join",
                  {"message": f"{current_user.title} has joined the chatroom."}, broadcast=True)
+            data = []
+            for message in Message.query.all():
+                data.append({
+                         "user": message.user,
+                         "message": message.text,
+                     })
+            emit("load-messages",
+                 {"messages": data},
+                     to=id,
+                     broadcast=False)
             
     @socketio.on("disconnect")
     def disconnect():
@@ -41,15 +51,3 @@ def register_sockets(db: SQLAlchemy):
                  broadcast=True)
             db.session.commit()
             
-    #Loads all messages saved in the db to the chatroom, only loads to user who sent "load-messages"
-    @socketio.on("load-messages")
-    def loadMessages(id):
-        if current_user.is_authenticated:
-            for message in Message.query:
-                emit("broadcast-message",
-                 {
-                     "user": message.user,
-                     "message": message.text,
-                 },
-                 to=id,
-                 broadcast=False)
