@@ -53,7 +53,7 @@ socket.on('connect', () => {
     console.log('Socket connected:', socket.id);
 });
 
-socket.on('join', (data) => {
+socket.on('chatroom-join', (data) => {
     sendChatMessage(data.message);
 });
 

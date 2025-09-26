@@ -17,7 +17,7 @@ def register_sockets(db: SQLAlchemy):
     def connect():
         # Sends a message about who joined. It is broadcasted to everyone.
         if current_user.is_authenticated:
-            emit("join",
+            emit("chatroom-join",
                  {"message": f"{current_user.title} has joined the chatroom."}, broadcast=True)
             
     @socketio.on("disconnect")
