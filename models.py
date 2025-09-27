@@ -90,6 +90,16 @@ class Message(db.Model):
 
     def __str__(self):
         return f"{self.user}: {self.text}"
+
+
+# Contains all active users in some chatroom
+class ActiveUsers(db.Model):
+    __tablename__ = "active_users"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column()
+
+    def __str__(self):
+        return f"{self.title}: {self.session_id}"
     
 # This is necessary for the login system.
 @login.user_loader

@@ -3,7 +3,7 @@ import os
 import random
 import sqlalchemy as sa
 from flask_sqlalchemy import SQLAlchemy
-from models import Player, Property, Message
+from models import Player, Property, Message, ActiveUsers
 from extensions import socketio
 from flask_login import current_user
 from flask_socketio import emit
@@ -17,9 +17,16 @@ def register_sockets(db: SQLAlchemy):
     def connect(id):
         # Sends a message about who joined. It is broadcasted to everyone.
         if current_user.is_authenticated:
+            # If the user isn't already in the database, add the user to the database of Active Users
+            if len(ActiveUsers.query.filter_by(id=current_user.id).all())==0:
+                db.session.add(ActiveUsers(id=current_user.id, title=current_user.title))
+                db.session.commit()
+            
+            # Send the list of every user connected to the chat room and their id
             emit("chatroom-join",
-                 {"message": f"{current_user.title} has joined the chatroom.", "user": current_user.title},
+                 {"message": f"{current_user.title} has joined the chatroom.", "users": [{"id": user.id, "title": user.title} for user in ActiveUsers.query.all()]},
                  broadcast=True)
+
             data = []
             for message in Message.query.all():
                 data.append({
@@ -35,11 +42,17 @@ def register_sockets(db: SQLAlchemy):
     def disconnect():
         # Sends a message about who joined. It is broadcasted to everyone.
         if current_user.is_authenticated:
+            print(current_user.id)
+            ActiveUsers.query.filter_by(id=current_user.id).delete()
+            db.session.commit()
+
             emit("leave",
-                 {"message": f"{current_user.title} has left the chatroom.", "user": current_user.title}, broadcast=True)
+                 {"message": f"{current_user.title} has left the chatroom.", "id": current_user.id},
+                 broadcast=True)
+
             
     @socketio.on("message-sent")
-    def messageSent(message):
+    def message_sent(message):
         # Sends a message sent by a user. It is broadcasted to everyone.
         if current_user.is_authenticated:
             # Send a structured payload so clients can display username and timestamp
@@ -51,4 +64,7 @@ def register_sockets(db: SQLAlchemy):
                  },
                  broadcast=True)
             db.session.commit()
+
+
+
             

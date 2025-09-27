@@ -6,13 +6,13 @@ const chatBox = document.getElementById("chat-box");
 const messageInput = document.getElementById("message-input");
 const userCount = document.getElementById("user-count")
 
-chatForm.addEventListener("submit", function(event) {
+chatForm.addEventListener("submit", function (event) {
     // stops the form from refreshing the page on submit
     event.preventDefault();
     // declare text without unnessecary whitespace
-    const text = messageInput.value.trim(); 
+    const text = messageInput.value.trim();
     // don't add empty messages
-    if (!text) return; 
+    if (!text) return;
 
     // for debugging
     console.log('Emitting message-sent:', text);
@@ -27,7 +27,7 @@ function sendChatMessage(message) {
     // create the div for the join message on all clients
     const messageElement = document.createElement('div');
     messageElement.className = 'join-message';
-    
+
     let time = new Date().toLocaleTimeString(); // Ex. 11:18:48 AM
     const timestamp = document.createElement('span');
     timestamp.className = 'timestamp';
@@ -42,32 +42,37 @@ function sendChatMessage(message) {
     // make sure the chatbox is there before appending 
     if (chatBox) {
         chatBox.appendChild(messageElement);
-    // if it ain't there then don't try to append nothin
+        // if it ain't there then don't try to append nothin
     } else {
         console.warn('chatBox not available; dropping message', data);
     }
     // in case too many messages to fit the box
     chatBox.scrollTop = chatBox.scrollHeight;
 }
+
 // debugging stuff to prevent more future headaches
 socket.on('connect', () => {
-    socket.emit("load-messages", socket.id)  
+    socket.emit("load-messages", socket.id)
     console.log('Socket connected:', socket.id);
 });
 
 socket.on('chatroom-join', (data) => {
     sendChatMessage(data.message);
 
-    // data.user is the string of the username, NOT the object
-    let currentUser = data.user;
-    // if the user isn't already in the list of connected users
-    if(!document.getElementById(currentUser)) {
-        // make a new div for the user's name in the user-count tab
-        const userIndicator = document.createElement('div');
-        userIndicator.id = currentUser;
-        userIndicator.textContent = currentUser;
-        userCount.appendChild(userIndicator)
-    }
+
+    // Iterates through every active user and appends to list of current users
+    data["users"].forEach(user => {
+        // If the user is not already in the active user table, put them in.
+        if (document.getElementById(user.id) == null) {
+            let userIndicator = document.createElement('div');
+            userIndicator.id = user.id;
+            userIndicator.textContent = user.title;
+            userCount.appendChild(userIndicator);
+        }
+
+    })
+
+
 });
 
 socket.on('disconnect', (reason) => {
@@ -77,14 +82,13 @@ socket.on('disconnect', (reason) => {
 socket.on('leave', (data) => {
     sendChatMessage(data.message);
 
-    // data.user is the string of the username, NOT the object
-    let currentUser = data.user;
-    // if the user is already in the list of connected users
-    if(document.getElementById(currentUser)) {
-        // remove the current user
-        let userIndicator = document.getElementById(currentUser);
+    // If the user is on the list of those connect, remove that user that left.
+    if (document.getElementById(data.id) != null) {
+        // If the user that left is in the connected section, that user will be removed.
+        let userIndicator = document.getElementById(data.id);
         userIndicator.remove();
     }
+
 });
 
 // Server emits broadcast-message in chatroom_sockets.py
