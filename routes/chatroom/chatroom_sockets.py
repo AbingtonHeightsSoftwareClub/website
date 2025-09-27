@@ -22,21 +22,21 @@ def register_sockets(db: SQLAlchemy):
             data = []
             for message in Message.query.all():
                 data.append({
-                         "user": message.user,
-                         "message": message.text,
-                     })
+                    "user": message.user,
+                    "message": message.text,
+                })
             emit("load-messages",
                  {"messages": data},
-                     to=id,
-                     broadcast=False)
-            
+                 to=id,
+                 broadcast=False)
+
     @socketio.on("disconnect")
     def disconnect():
         # Sends a message about who joined. It is broadcasted to everyone.
         if current_user.is_authenticated:
             emit("leave",
                  {"message": f"{current_user.title} has left the chatroom."}, broadcast=True)
-            
+
     @socketio.on("message-sent")
     def messageSent(message):
         # Sends a message sent by a user. It is broadcasted to everyone.
@@ -50,4 +50,20 @@ def register_sockets(db: SQLAlchemy):
                  },
                  broadcast=True)
             db.session.commit()
-            
+
+    @socketio.on("typing-event")
+    def typingEvent():
+        # Notifies everyone that a certain user is typing
+        if current_user.is_authenticated:
+            emit("typing-event", {
+                "user": current_user.title
+            },
+                 broadcast=True)
+
+    @socketio.on("typing-stopped")
+    def typingStopped():
+        if current_user.is_authenticated:
+            emit("typing-stopped", {
+                "user": current_user.title
+            },
+                 broadcast=True)
