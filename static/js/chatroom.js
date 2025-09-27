@@ -4,7 +4,8 @@ const socket = io({autoConnect: true});
 const chatForm = document.getElementById("chat-form");
 const chatBox = document.getElementById("chat-box");
 const messageInput = document.getElementById("message-input");
-const userCount = document.getElementById("user-count")
+const userCount = document.getElementById("user-count");
+const typingBar = document.getElementById("typing-bar");
 
 chatForm.addEventListener("submit", function (event) {
     // stops the form from refreshing the page on submit
@@ -21,6 +22,18 @@ chatForm.addEventListener("submit", function (event) {
     // clear input and focus after sending so that they can send more messages quickly
     messageInput.value = '';
     messageInput.focus();
+});
+
+chatForm.addEventListener("input", function(event){
+    // stops the form from refreshing the page on input
+    event.preventDefault();
+    socket.emit("typing-event");
+});
+
+chatForm.addEventListener("focusout", function(event) {
+    // stops the form from refreshing the page when the input loses blur
+    event.preventDefault();
+    socket.emit("typing-stopped");
 });
 
 function sendChatMessage(message) {
@@ -93,6 +106,10 @@ socket.on('leave', (data) => {
 
 // Server emits broadcast-message in chatroom_sockets.py
 socket.on('broadcast-message', (data) => {
+    // Remove the typing notification when they send a message
+    if(document.getElementById((data.user + "-typing"))) {
+        document.getElementById((data.user + "-typing")).remove();
+    }
     sendChatMessage(data.user + ": " + data.message);
 });
 
@@ -104,4 +121,25 @@ socket.on('load-messages', (data) => {
         sendChatMessage(message.user + ": " + message.message);
 
     })
+});
+
+socket.on('typing-event', (data) => {
+    const currentUser = data.user;
+    const message = currentUser + " is typing...";
+    // If there is not already a notification that the user is typing
+    if(!document.getElementById((currentUser + "-typing"))) {
+        // Create a notification that the user is typing
+        const typingMessage = document.createElement("div");
+        typingMessage.id = currentUser + "-typing";
+        typingMessage.className = "typing-bar";
+        typingMessage.textContent = message;
+        typingBar.appendChild(typingMessage);
+    }
+});
+
+socket.on('typing-stopped', (data) => {
+    // Remove the typing notification when they unfocus the chatbar
+    if(document.getElementById((data.user + "-typing"))) {
+        document.getElementById((data.user + "-typing")).remove();
+    }
 });

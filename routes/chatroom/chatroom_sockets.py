@@ -65,6 +65,23 @@ def register_sockets(db: SQLAlchemy):
                  broadcast=True)
             db.session.commit()
 
+    @socketio.on("typing-event")
+    def typingEvent():
+        # Notifies everyone that a certain user is typing
+        if current_user.is_authenticated:
+            emit("typing-event", {
+                "user": current_user.title
+            },
+                 broadcast=True)
+
+    @socketio.on("typing-stopped")
+    def typingStopped():
+        if current_user.is_authenticated:
+            emit("typing-stopped", {
+                "user": current_user.title
+            },
+                 broadcast=True)
+
 
 
             
