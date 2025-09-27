@@ -7,8 +7,8 @@ from models import Player, Property, Message
 from extensions import socketio
 from flask_login import current_user
 from flask_socketio import emit
-
-
+#very secure
+connected = []
 # Routes are registered as a function, so we don't get circular imports.
 # If it wasn't a function, it would get redefined multiple times, and Flask would throw errors.
 
@@ -17,8 +17,9 @@ def register_sockets(db: SQLAlchemy):
     def connect(id):
         # Sends a message about who joined. It is broadcasted to everyone.
         if current_user.is_authenticated:
+            connected.append(current_user.title)
             emit("chatroom-join",
-                 {"message": f"{current_user.title} has joined the chatroom.", "user": current_user.title},
+                 {"message": f"{current_user.title} has joined the chatroom.", "user": current_user.title, "connected": connected},
                  broadcast=True)
             data = []
             for message in Message.query.all():
@@ -35,6 +36,7 @@ def register_sockets(db: SQLAlchemy):
     def disconnect():
         # Sends a message about who joined. It is broadcasted to everyone.
         if current_user.is_authenticated:
+            connected.remove(current_user.title)
             emit("leave",
                  {"message": f"{current_user.title} has left the chatroom.", "user": current_user.title}, broadcast=True)
             

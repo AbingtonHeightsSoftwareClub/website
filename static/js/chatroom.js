@@ -57,16 +57,17 @@ socket.on('connect', () => {
 
 socket.on('chatroom-join', (data) => {
     sendChatMessage(data.message);
-
-    // data.user is the string of the username, NOT the object
-    let currentUser = data.user;
-    // if the user isn't already in the list of connected users
-    if(!document.getElementById(currentUser)) {
-        // make a new div for the user's name in the user-count tab
+    //completely reloads userCount when anyone joins
+    while (userCount.firstChild) 
+    {
+      userCount.removeChild(userCount.firstChild);
+    }
+    for(const user of data.connected)
+    {
         const userIndicator = document.createElement('div');
-        userIndicator.id = currentUser;
-        userIndicator.textContent = currentUser;
-        userCount.appendChild(userIndicator)
+        userIndicator.id = user;
+        userIndicator.textContent = user;
+        userCount.appendChild(userIndicator);
     }
 });
 
