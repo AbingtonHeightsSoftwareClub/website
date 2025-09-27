@@ -35,3 +35,13 @@
     border-radius: 20px;
     overflow: auto;
 }
+
+.typing-bar {
+	text-align: left;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 5px;
+    overflow: auto;
+    color: gray;
+    font-size: 0.8em;
+}
