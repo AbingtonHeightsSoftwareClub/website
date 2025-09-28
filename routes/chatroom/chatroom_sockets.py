@@ -32,6 +32,7 @@ def register_sockets(db: SQLAlchemy):
                 data.append({
                          "user": message.user,
                          "message": message.text,
+                         "time": message.time,
                      })
             emit("load-messages",
                  {"messages": data},
@@ -52,15 +53,16 @@ def register_sockets(db: SQLAlchemy):
 
             
     @socketio.on("message-sent")
-    def message_sent(message):
+    def message_sent(message, time):
         # Sends a message sent by a user. It is broadcasted to everyone.
         if current_user.is_authenticated:
             # Send a structured payload so clients can display username and timestamp
-            db.session.add(Message(user=current_user.title, text=message))
+            db.session.add(Message(user=current_user.title, text=message, time=time))
             emit("broadcast-message",
                  {
                      "user": current_user.title,
                      "message": message,
+                     "time" : time
                  },
                  broadcast=True)
             db.session.commit()
