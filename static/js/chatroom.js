@@ -39,14 +39,14 @@ chatForm.addEventListener("focusout", function(event) {
 function sendChatMessage(message, time) {
     // create the div for the join message on all clients
     const messageElement = document.createElement('div');
-    messageElement.className = 'join-message';
+    messageElement.className = 'chatroom-message';
 
     // time SHOULD always exist
     const timestamp = document.createElement('span');
     timestamp.className = 'timestamp';
     timestamp.textContent = time;
     messageElement.appendChild(timestamp);
-
+    
     // create the text of the message on all clients
     const body = document.createElement('div');
     body.className = 'message-body';
@@ -71,7 +71,6 @@ socket.on('connect', () => {
 
 socket.on('chatroom-join', (data) => {
     sendChatMessage(data.message);
-
 
     // Iterates through every active user and appends to list of current users
     data["users"].forEach(user => {
