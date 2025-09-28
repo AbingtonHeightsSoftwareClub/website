@@ -1,3 +1,5 @@
+import datetime
+
 import eventlet
 eventlet.monkey_patch()
 
@@ -87,6 +89,8 @@ class Message(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user: Mapped[str] = mapped_column()
     text: Mapped[str] = mapped_column()
+    # have to do nullable here or it yells at me
+    time: Mapped[str] = mapped_column(default=datetime.time(hour=12))
 
     def __str__(self):
         return f"{self.user}: {self.text}"

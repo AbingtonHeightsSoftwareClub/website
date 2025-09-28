@@ -14,11 +14,11 @@ chatForm.addEventListener("submit", function (event) {
     const text = messageInput.value.trim();
     // don't add empty messages
     if (!text) return;
-
+    let time = new Date().toLocaleTimeString()
     // for debugging
     console.log('Emitting message-sent:', text);
     // send the server the message
-    socket.emit("message-sent", text)
+    socket.emit("message-sent", text, time)
     // clear input and focus after sending so that they can send more messages quickly
     messageInput.value = '';
     messageInput.focus();
@@ -36,12 +36,12 @@ chatForm.addEventListener("focusout", function(event) {
     socket.emit("typing-stopped");
 });
 
-function sendChatMessage(message) {
+function sendChatMessage(message, time) {
     // create the div for the join message on all clients
     const messageElement = document.createElement('div');
     messageElement.className = 'join-message';
 
-    let time = new Date().toLocaleTimeString(); // Ex. 11:18:48 AM
+    // time SHOULD always exist
     const timestamp = document.createElement('span');
     timestamp.className = 'timestamp';
     timestamp.textContent = time;
@@ -110,7 +110,7 @@ socket.on('broadcast-message', (data) => {
     if(document.getElementById((data.user + "-typing"))) {
         document.getElementById((data.user + "-typing")).remove();
     }
-    sendChatMessage(data.user + ": " + data.message);
+    sendChatMessage(data.user + ": " + data.message, data.time);
 });
 
 // Server emits broadcast-message in chatroom_sockets.py
@@ -118,7 +118,7 @@ socket.on('load-messages', (data) => {
     chatBox.replaceChildren();
 
     data["messages"].forEach(message => {
-        sendChatMessage(message.user + ": " + message.message);
+        sendChatMessage(message.user + ": " + message.message, message.time);
 
     })
 });
