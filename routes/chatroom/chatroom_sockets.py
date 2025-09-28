@@ -74,7 +74,7 @@ def register_sockets(db: SQLAlchemy):
             emit("typing-event", {
                 "user": current_user.title
             },
-                 broadcast=True)
+                 broadcast=True, include_self=False)
 
     @socketio.on("typing-stopped")
     def typingStopped():
@@ -82,7 +82,7 @@ def register_sockets(db: SQLAlchemy):
             emit("typing-stopped", {
                 "user": current_user.title
             },
-                 broadcast=True)
+                 broadcast=True, include_self=False)
 
 
 
