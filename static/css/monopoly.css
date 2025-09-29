@@ -6,6 +6,9 @@
 }
 
 .piece {
+    display: flex;  
+    justify-content: center;  
+    align-items: center;
     height: 2rem;
     position: absolute;
     z-index: 3;
@@ -109,6 +112,13 @@ main {
     align-items: center;
     width: 100%;
     height: 100%;
+}
+
+.span{
+    display: flex;  
+    justify-content: center;  
+    align-items: center;
+    position: absolute;
 }
 
 .left {
