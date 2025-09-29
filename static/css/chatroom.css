@@ -10,6 +10,7 @@ html, body, main {
     height: 85%;
     margin-top: 5px
 }
+
 #chat-form {
     position: fixed;
     left: 0;
@@ -75,6 +76,7 @@ html, body, main {
     margin-left: 20px;
     margin-bottom: 5px;
 }
+
 #send-button {
 	display: none;
 }
