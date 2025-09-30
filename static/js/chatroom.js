@@ -12,6 +12,11 @@ chatForm.addEventListener("submit", function (event) {
     event.preventDefault();
     // declare text without unnessecary whitespace
     const text = messageInput.value.trim();
+    // replace input over the character limit with a message
+    if (text.length > 75) {
+        messageInput.value = "This message is wayyyy too long!"
+        return
+    }
     // don't add empty messages
     if (!text) return;
     let time = new Date().toLocaleTimeString()
