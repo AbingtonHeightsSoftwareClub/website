@@ -69,7 +69,7 @@ socket.on('connect', () => {
     console.log('Socket connected:', socket.id);
 });
 
-socket.on('chatroom-join', (data) => {
+socket.on('join', (data) => {
     sendChatMessage(data.message);
 
     // Iterates through every active user and appends to list of current users

@@ -23,7 +23,7 @@ def register_sockets(db: SQLAlchemy):
                 db.session.commit()
             
             # Send the list of every user connected to the chat room and their id
-            emit("chatroom-join",
+            emit("join",
                  {"message": f"{current_user.title} has joined the chatroom.", "users": [{"id": user.id, "title": user.title} for user in ActiveUsers.query.all()]},
                  broadcast=True)
 
