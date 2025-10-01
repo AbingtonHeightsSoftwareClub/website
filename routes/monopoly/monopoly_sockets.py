@@ -20,8 +20,12 @@ def register_sockets(db: SQLAlchemy):
 
         if current_user.is_authenticated:
             emit("join",
-                 {"message": f"Player {current_user.title} has joined.", "title": current_user.title}, broadcast=True)
-
+                 {
+                     "message": f"Player {current_user.title} has joined.",
+                     "title": current_user.title,
+                     "properties": Property.query.all()
+                 },
+                 broadcast=True)
 
     @socketio.on("roll")
     def roll():

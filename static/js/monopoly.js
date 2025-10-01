@@ -14,14 +14,12 @@ for (let i = 0; i < 36; i++) {
     let item = document.createElement("div");
     // Span is the text that has the id
     let span = document.createElement("span");
-
     // Sets the text in the tile to its id, but since corners are not accounted for, its not completely accurate.
-
     span.classList.add("span");
     item.classList.add("item");
 
 
-
+    // for the rightmost elements
     if (i >= 9 && i <= 26) {
         if (i % 2 === 0) {
             // Rotates tiles on the right side, so the text faces the correct way
@@ -41,8 +39,8 @@ for (let i = 0; i < 36; i++) {
         item.id = String(10-(i-27));
     }
 
+    // Adds the text to the span
     span.textContent = item.id;
-    // Adds the text to the tiles
     item.append(span);
     // Adds the tile to the grid
     grid.append(item);
@@ -60,12 +58,20 @@ player.className = "piece";
 // Starts by putting the player in tile 2
 document.getElementById("2").appendChild(player);
 
-
 // When the server responds to the user happening, this code is ran.
 socket.on("join", (data) => {
     console.log(data.message);
     display.innerHTML = data.message + " Press R to roll.";
-
+    // loop through all bottom tiles and append tooltip to them
+    for (let i = 1; i < 11; i++) {
+        let tile = document.getElementById(String(i));
+        console.log(tile);
+        let tooltip = document.createElement("div");
+        let tooltipText = document.createElement("div")
+        tooltipText.textContent = data.properties[tile.id].title;
+        tooltip.append(tooltipText)
+        tile.append(tooltip);
+}
 });
 
 
