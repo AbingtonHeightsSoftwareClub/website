@@ -17,11 +17,17 @@ def register_sockets(db: SQLAlchemy):
     @socketio.on("connect")
     def connect():
         # Sends a message named joined. It is broadcasted to everyone.
-
+        property_list = []
+        for property in db.session.query(Property).all():
+            property_list.append(property.title)
         if current_user.is_authenticated:
             emit("join",
-                 {"message": f"Player {current_user.title} has joined.", "title": current_user.title}, broadcast=True)
-
+                 {
+                     "message": f"Player {current_user.title} has joined.",
+                     "title": current_user.title,
+                     "properties": property_list
+                 },
+                 broadcast=True)
 
     @socketio.on("roll")
     def roll():

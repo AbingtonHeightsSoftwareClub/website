@@ -6,8 +6,8 @@
 }
 
 .piece {
-    display: flex;  
-    justify-content: center;  
+    display: flex;
+    justify-content: center;
     align-items: center;
     height: 2rem;
     position: absolute;
@@ -39,7 +39,6 @@ main {
     grid-template-columns: 100%;
     grid-template-rows: 10% 90%;
     overflow: hidden;
-
 
 }
 
@@ -114,11 +113,12 @@ main {
     height: 100%;
 }
 
-.span{
-    display: flex;  
-    justify-content: center;  
+.span {
+    justify-content: center;
     align-items: center;
     position: absolute;
+    display: inline-block;
+    cursor: pointer;
 }
 
 .left {
@@ -127,4 +127,20 @@ main {
 
 .right {
     transform: rotate(270deg);
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 130px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+}
+
+.item:hover .tooltip-text {
+    visibility: visible;
 }
