@@ -64,12 +64,19 @@ socket.on("join", (data) => {
     display.innerHTML = data.message + " Press R to roll.";
     console.log(data.properties);
     // loop through all bottom tiles and append tooltip to them
+    // This for loop condition goes TOO FAR, so it SHOULD BE CHANGED PROBABLY
     for (let i = 1; i < 41; i++) {
+        // get the current tile
         let tile = document.getElementById(String(i));
+        // debug stuff 
         console.log(tile);
+        // make the tooltiptext
         let tooltipText = document.createElement("div")
+        // add its class
         tooltipText.classList.add("tooltip-text")
+        // this should be changed to the current property at index i
         tooltipText.textContent = "Property Name"; // REPLACE ASAP!!!!!!!!!!!!!
+        // add the tooltip text to the tile
         tile.append(tooltipText);
     }
 });
