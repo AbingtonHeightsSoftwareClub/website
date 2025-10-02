@@ -6,8 +6,8 @@
 }
 
 .piece {
-    display: flex;  
-    justify-content: center;  
+    display: flex;
+    justify-content: center;
     align-items: center;
     height: 2rem;
     position: absolute;
@@ -39,7 +39,6 @@ main {
     grid-template-columns: 100%;
     grid-template-rows: 10% 90%;
     overflow: hidden;
-
 
 }
 
@@ -114,11 +113,12 @@ main {
     height: 100%;
 }
 
-.span{
-    display: flex;  
-    justify-content: center;  
+.span {
+    justify-content: center;
     align-items: center;
     position: absolute;
+    display: inline-block;
+    cursor: pointer;
 }
 
 .left {
@@ -129,28 +129,18 @@ main {
     transform: rotate(270deg);
 }
 
-/* Tooltip container */
-.tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black; /* Add dots under the hoverable text */
-  cursor: pointer;
+.tooltip-text {
+    visibility: hidden;
+    width: 130px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
 }
 
-/* Tooltip text */
-.tooltiptext {
-  visibility: hidden; /* Hidden by default */
-  width: 130px;
-  background-color: black;
-  color: #fffffff;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-  position: absolute;
-  z-index: 1; /* Ensure tooltip is displayed above content */
-}
-
-/* Show the tooltip text on hover */
-.tooltip:hover .tooltiptext {
-  visibility: visible;
+.item:hover .tooltip-text {
+    visibility: visible;
 }

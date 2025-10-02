@@ -24,19 +24,19 @@ for (let i = 0; i < 36; i++) {
         if (i % 2 === 0) {
             // Rotates tiles on the right side, so the text faces the correct way
             span.classList.add("right")
-            item.id = String(32+(i-10)/2);
+            item.id = String(32 + (i - 10) / 2);
         } else {
             // Rotates tiles on the left  side, so the text faces the correct way
             span.classList.add("left");
-            item.id = String(24-(i-1)/2);
+            item.id = String(24 - (i - 1) / 2);
 
         }
     }
     // Sets the id, so javascript can reference it easily
-    if (i<=8){
-        item.id = String(22+i);
-    }else if (i>26){
-        item.id = String(10-(i-27));
+    if (i <= 8) {
+        item.id = String(22 + i);
+    } else if (i > 26) {
+        item.id = String(10 - (i - 27));
     }
 
     // Adds the text to the span
@@ -62,16 +62,16 @@ document.getElementById("2").appendChild(player);
 socket.on("join", (data) => {
     console.log(data.message);
     display.innerHTML = data.message + " Press R to roll.";
+    console.log(data.properties);
     // loop through all bottom tiles and append tooltip to them
-    for (let i = 1; i < 11; i++) {
+    for (let i = 1; i < 41; i++) {
         let tile = document.getElementById(String(i));
         console.log(tile);
-        let tooltip = document.createElement("div");
         let tooltipText = document.createElement("div")
-        tooltipText.textContent = data.properties[tile.id].title;
-        tooltip.append(tooltipText)
-        tile.append(tooltip);
-}
+        tooltipText.classList.add("tooltip-text")
+        tooltipText.textContent = "Property Name"; // REPLACE ASAP!!!!!!!!!!!!!
+        tile.append(tooltipText);
+    }
 });
 
 
@@ -81,15 +81,13 @@ socket.on("rolled", (data) => {
 
     let current_position = data["current_position"];
     // Player rolled and should be put on this tile
-    let tile_to_go_to =  document.getElementById(data["current_position"]);
+    let tile_to_go_to = document.getElementById(data["current_position"]);
     // Player should be oriented the same as the text, so we put it in the span, with is called the child of the tile
     let span = document.getElementById(data["current_position"]).children[0];
 
     // Puts player into the span
     span.append(player);
 });
-
-
 
 
 // When the user presses r, the user tells the server to roll its player
