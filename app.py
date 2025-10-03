@@ -41,7 +41,7 @@ def create_app():
     monopoly_routes.register_routes(app, db)
     chatroom_routes.register_routes(app, db)
     # Imports the socketIO connections
-    monopoly_sockets.register_sockets(app, db)
+    monopoly_sockets.register_sockets(db)
     chatroom_sockets.register_sockets(db)
 
     # Database stuff
