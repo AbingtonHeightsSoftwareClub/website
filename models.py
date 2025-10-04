@@ -23,6 +23,7 @@ class Player(UserMixin, db.Model):
     piece: Mapped[int] = mapped_column()
     position: Mapped[int] = mapped_column()
     money: Mapped[int] = mapped_column()
+    room: Mapped[int] = mapped_column(nullable=True)
 
     # Secure way to store passwords. If you want to know more look it up.
     password_hash: Mapped[Optional[str]] = mapped_column(String(256))
@@ -90,6 +91,7 @@ class Message(db.Model):
     user: Mapped[str] = mapped_column()
     text: Mapped[str] = mapped_column()
     time: Mapped[str] = mapped_column(default=datetime.time(hour=12))
+    room: Mapped[int] = mapped_column()
     def __str__(self):
         return f"{self.user}: {self.text}"
 
@@ -99,6 +101,7 @@ class ActiveUsers(db.Model):
     __tablename__ = "active_users"
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column()
+    room: Mapped[int] = mapped_column()
 
     def __str__(self):
         return f"{self.title}: {self.session_id}"

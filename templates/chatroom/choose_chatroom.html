@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %} Chatroom {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{url_for('static', filename='css/chatroom/choose.css')}}" />
+
+<div class="box">
+    {% for room in rooms %}
+    <button onclick="chose(this)" value="{{room}}">{{room}}</button>
+    {% endfor %}
+    <label for="add">New Room</label>
+    <input type="number" name="New Room" id="add">
+</div>
+
+<script
+    src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+    integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+    crossorigin="anonymous"
+></script>
+
+<script
+    type="module"
+    src="{{url_for('static', filename='js/choose_chatroom.js')}}"
+></script>
+
+
+{% endblock %}

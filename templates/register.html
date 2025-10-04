@@ -42,6 +42,8 @@
 
         {{form.password2(size=30)}}
 
+
+
         {% for error in form.password2.errors %}
 
         <span style="color: red;"> {{error}} </span>
@@ -49,6 +51,7 @@
         {% endfor %}
 
     </p>
+
 
     <p>{{form.submit()}}</p>
 

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 import sqlalchemy as sa
 from app import db
@@ -52,3 +52,4 @@ class RegistrationForm(FlaskForm):
             # The error is automatically handled by FlaskForm, and it puts the error
             # in little red text below the box.
             raise ValidationError("Please use a different username.")
+

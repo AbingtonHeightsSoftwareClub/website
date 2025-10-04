@@ -11,6 +11,10 @@ html, body, main {
     margin-top: 5px
 }
 
+#room{
+    font-weight: bold;
+}
+
 #chat-form {
     position: fixed;
     left: 0;
@@ -43,6 +47,8 @@ html, body, main {
 }
 
 .user-count {
+    display: flex;
+    flex-direction: column;
     height: inherit;
 	text-align: center;
     margin-left: 20px;
