@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 
 from forms import LoginForm, RegistrationForm
-from models import Player, Property, Message
+from models import Player, Property, Message, ActiveUsers
 from flask import send_from_directory
 from extensions import socketio
 from flask_login import current_user, login_user, logout_user, login_required
@@ -44,8 +44,35 @@ def register_routes(app, db: SQLAlchemy):
     @app.route("/chatroom")
     @login_required
     def chatroom():
-        return render_template("chatroom.html")
-    
+        if current_user.room is None:
+            return redirect(url_for("choose_chatroom", room="choose"))
+        return render_template("chatroom/chatroom.html", room=current_user.room)
+
+
+    @app.route("/chatroom/choose_chatroom/<room>", methods=["GET", "POST"])
+    @login_required
+    def choose_chatroom(room: str):
+        print(room)
+        if room == "choose":
+            rooms: set = set()
+            for message in Message.query.all():
+                rooms.add(message.room)
+            db.session.commit()
+            return render_template("chatroom/choose_chatroom.html", rooms=rooms)
+
+        else:
+            try:
+                room = int(room)
+
+            except ValueError:
+                print("Error")
+                return redirect(url_for("choose_chatroom", room="choose"))
+
+            current_user.room = int(room)
+            db.session.commit()
+            return redirect(url_for("chatroom"))
+
+
     # Deletes the chat db, bandaid solution rn but we'll change it later
     @app.route("/delete_chats")
     @login_required
@@ -53,4 +80,4 @@ def register_routes(app, db: SQLAlchemy):
         for message in Message.query:
             db.session.delete(message)
         db.session.commit()
-        return render_template("chatroom.html")
+        return render_template("chatroom/chatroom.html")

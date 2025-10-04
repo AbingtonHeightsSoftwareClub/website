@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from models import Player, Property, Message, ActiveUsers
 from extensions import socketio
 from flask_login import current_user
-from flask_socketio import emit
+from flask_socketio import emit, join_room, leave_room
 
 
 # Routes are registered as a function, so we don't get circular imports.
@@ -17,18 +17,19 @@ def register_sockets(db: SQLAlchemy):
     def connect(id):
         # Sends a message about who joined. It is broadcasted to everyone.
         if current_user.is_authenticated:
+            join_room(current_user.room)
             # If the user isn't already in the database, add the user to the database of Active Users
-            if len(ActiveUsers.query.filter_by(id=current_user.id).all())==0:
-                db.session.add(ActiveUsers(id=current_user.id, title=current_user.title))
+            if len(ActiveUsers.query.filter_by(id=current_user.id, room=current_user.room).all())==0:
+                db.session.add(ActiveUsers(id=current_user.id, title=current_user.title, room=current_user.room))
                 db.session.commit()
             
             # Send the list of every user connected to the chat room and their id
             emit("join",
-                 {"message": f"{current_user.title} has joined the chatroom.", "users": [{"id": user.id, "title": user.title} for user in ActiveUsers.query.all()]},
-                 broadcast=True)
+                 {"message": f"{current_user.title} has joined the chatroom.", "users": [{"id": user.id, "title": user.title} for user in ActiveUsers.query.filter_by(room=current_user.room).all()]},
+                 broadcast=True, to=current_user.room)
 
             data = []
-            for message in Message.query.all():
+            for message in Message.query.filter_by(room=current_user.room).all():
                 data.append({
                          "user": message.user,
                          "message": message.text,
@@ -43,13 +44,14 @@ def register_sockets(db: SQLAlchemy):
     def disconnect():
         # Sends a message about who joined. It is broadcasted to everyone.
         if current_user.is_authenticated:
+            leave_room(current_user.room)
             print(current_user.id)
             ActiveUsers.query.filter_by(id=current_user.id).delete()
             db.session.commit()
 
             emit("leave",
                  {"message": f"{current_user.title} has left the chatroom.", "id": current_user.id},
-                 broadcast=True)
+                 broadcast=True, to=current_user.room)
 
             
     @socketio.on("message-sent")
@@ -57,14 +59,14 @@ def register_sockets(db: SQLAlchemy):
         # Sends a message sent by a user. It is broadcasted to everyone.
         if current_user.is_authenticated:
             # Send a structured payload so clients can display username and timestamp
-            db.session.add(Message(user=current_user.title, text=message, time=time))
+            db.session.add(Message(user=current_user.title, text=message, time=time, room=current_user.room))
             emit("broadcast-message",
                  {
                      "user": current_user.title,
                      "message": message,
                      "time" : time
                  },
-                 broadcast=True)
+                 broadcast=True, to=current_user.room)
             db.session.commit()
 
     @socketio.on("typing-event")
@@ -74,7 +76,7 @@ def register_sockets(db: SQLAlchemy):
             emit("typing-event", {
                 "user": current_user.title
             },
-                 broadcast=True, include_self=False)
+                 broadcast=True, include_self=False, to=current_user.room)
 
     @socketio.on("typing-stopped")
     def typingStopped():
@@ -82,7 +84,7 @@ def register_sockets(db: SQLAlchemy):
             emit("typing-stopped", {
                 "user": current_user.title
             },
-                 broadcast=True, include_self=False)
+                 broadcast=True, include_self=False, to=current_user.room)
 
 
 

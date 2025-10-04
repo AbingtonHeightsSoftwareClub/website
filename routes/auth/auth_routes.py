@@ -79,7 +79,7 @@ def register_routes(app, db: SQLAlchemy):
         # Creates form to be sent to user or grabs data (Depends on if already created or not)
         form = RegistrationForm()
         if form.validate_on_submit():
-            player = Player(title=form.username.data, piece=0, position=0, money=0)
+            player = Player(title=form.username.data, piece=0, position=0, money=0, room=None)
             player.set_password(form.password.data)
             db.session.add(player)
             db.session.commit()
