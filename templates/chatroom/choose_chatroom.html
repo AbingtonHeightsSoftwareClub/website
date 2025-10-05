@@ -9,7 +9,10 @@
 <div class="box">
     <div class="room add">
     <label for="add">New Room</label>
-    <input type="number" name="New Room" id="add">
+    <input type="number" name="New Room" id="add"><br/>
+    <label for="room_password">Password (optional): </label>
+    <input type="password" name="room_password" id="room_password">
+    <br/>
     </div>
 
     {% for room in rooms %}
