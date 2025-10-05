@@ -1,0 +1,27 @@
+.box{
+    display: grid;
+    grid-template-rows: minmax(0, 5rem);
+    grid-auto-rows: 5rem;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 20rem))
+
+}
+
+
+.room{
+    display: flex;
+    flex-flow: column;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    border-width: 2px;
+    padding: 10px
+}
+
+.add{
+    width: 10rem;
+}
+
+.buttons{
+    height: 2rem;
+
+}

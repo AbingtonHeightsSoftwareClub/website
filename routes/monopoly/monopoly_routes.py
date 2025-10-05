@@ -44,6 +44,7 @@ def register_routes(app, db: SQLAlchemy):
     @app.route("/monopoly")
     @login_required
     def monopoly():
+        print(current_user)
         return render_template("monopoly.html")
     
     #going to ahsofware.club/reset_properties will delete all property data and reload it
@@ -55,7 +56,7 @@ def register_routes(app, db: SQLAlchemy):
         data = pd.read_csv("properties.csv", index_col=0)
         for property in Property.query:
             db.session.delete(property)
-        db.session.commit
+        db.session.commit()
         for title in data.index.values:
             property = Property(title=title,
                                     price=int(data.loc[title].iloc[0]),

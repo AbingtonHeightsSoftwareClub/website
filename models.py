@@ -101,7 +101,7 @@ class ActiveUsers(db.Model):
     __tablename__ = "active_users"
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column()
-    room: Mapped[int] = mapped_column()
+    room: Mapped[int] = mapped_column(nullable=True)
 
     def __str__(self):
         return f"{self.title}: {self.session_id}"
