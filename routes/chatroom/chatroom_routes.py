@@ -50,11 +50,18 @@ def register_routes(app, db: SQLAlchemy):
         # If they have a room, serve it to them
         return render_template("chatroom/chatroom.html", room=current_user.room)
 
+    """
+    If someone enters nothing as the new room they want, they get redirected here.
+    """
+    @app.route("/chatroom/choose_chatroom/")
+    @login_required
+    def empty_choose_chatroom():
+        return redirect(url_for("choose_chatroom", room="choose"))
+
     # Dynamic URL for the choose screen
     @app.route("/chatroom/choose_chatroom/<room>", methods=["GET", "POST"])
     @login_required
     def choose_chatroom(room: str):
-        print(room)
         # if they don't have a room
         if room == "choose":
             # Define all rooms and all users in those rooms every time so that no user is missed.
@@ -66,7 +73,12 @@ def register_routes(app, db: SQLAlchemy):
                 rooms.add(user.room)
                 # Create a dictionary entry that contains a list of every active user in room n
                 active_users[user.room] = [active_user.title for active_user in ActiveUsers.query.filter_by(room=user.room).all()]
-            db.session.commit()
+
+            # If a room has messages in it, we want to be able to go to it and see what people sent. So, we need to list rooms that have messages in them.
+            for message in Message.query.all():
+                rooms.add(message.room)
+
+
             return render_template("chatroom/choose_chatroom.html", rooms=rooms, active_users=active_users)
 
         else:
@@ -75,6 +87,21 @@ def register_routes(app, db: SQLAlchemy):
 
             except ValueError:
                 print("Error")
+                # Define all rooms and all users in those rooms every time so that no user is missed.
+                active_users: dict = dict()
+                rooms: set = set()
+                # For every active user ever
+                for user in ActiveUsers.query.all():
+                    # Add every possible room (it's a set so no duplicates)
+                    rooms.add(user.room)
+                    # Create a dictionary entry that contains a list of every active user in room n
+                    active_users[user.room] = [active_user.title for active_user in
+                                               ActiveUsers.query.filter_by(room=user.room).all()]
+                # If a room has messages in it, we want to be able to go to it and see what people sent. So, we need to list rooms that have messages in them.
+                for message in Message.query.all():
+                    rooms.add(message.room)
+
+
                 return redirect(url_for("choose_chatroom", room="choose", active_users=active_users))
 
             current_user.room = int(room)
