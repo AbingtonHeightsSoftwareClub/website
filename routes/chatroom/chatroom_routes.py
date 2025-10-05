@@ -44,19 +44,22 @@ def register_routes(app, db: SQLAlchemy):
     @app.route("/chatroom")
     @login_required
     def chatroom():
+        # If they don't have a room, make them choose one
         if current_user.room is None:
             return redirect(url_for("choose_chatroom", room="choose"))
+        # If they have a room, serve it to them
         return render_template("chatroom/chatroom.html", room=current_user.room)
 
-
+    # Dynamic URL for the choose screen
     @app.route("/chatroom/choose_chatroom/<room>", methods=["GET", "POST"])
     @login_required
     def choose_chatroom(room: str):
         print(room)
+        # if they don't have a room
         if room == "choose":
             rooms: set = set()
-            for message in Message.query.all():
-                rooms.add(message.room)
+            for user in ActiveUsers.query.all():
+                rooms.add(user.room)
             db.session.commit()
             return render_template("chatroom/choose_chatroom.html", rooms=rooms)
 
