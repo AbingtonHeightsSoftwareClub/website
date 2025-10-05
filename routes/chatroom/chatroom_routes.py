@@ -44,21 +44,30 @@ def register_routes(app, db: SQLAlchemy):
     @app.route("/chatroom")
     @login_required
     def chatroom():
+        # If they don't have a room, make them choose one
         if current_user.room is None:
             return redirect(url_for("choose_chatroom", room="choose"))
+        # If they have a room, serve it to them
         return render_template("chatroom/chatroom.html", room=current_user.room)
 
-
+    # Dynamic URL for the choose screen
     @app.route("/chatroom/choose_chatroom/<room>", methods=["GET", "POST"])
     @login_required
     def choose_chatroom(room: str):
         print(room)
+        # if they don't have a room
         if room == "choose":
+            # Define all rooms and all users in those rooms every time so that no user is missed.
+            active_users: dict = dict()
             rooms: set = set()
-            for message in Message.query.all():
-                rooms.add(message.room)
+            # For every active user ever
+            for user in ActiveUsers.query.all():
+                # Add every possible room (it's a set so no duplicates)
+                rooms.add(user.room)
+                # Create a dictionary entry that contains a list of every active user in room n
+                active_users[user.room] = [active_user.title for active_user in ActiveUsers.query.filter_by(room=user.room).all()]
             db.session.commit()
-            return render_template("chatroom/choose_chatroom.html", rooms=rooms)
+            return render_template("chatroom/choose_chatroom.html", rooms=rooms, active_users=active_users)
 
         else:
             try:
@@ -66,7 +75,7 @@ def register_routes(app, db: SQLAlchemy):
 
             except ValueError:
                 print("Error")
-                return redirect(url_for("choose_chatroom", room="choose"))
+                return redirect(url_for("choose_chatroom", room="choose", active_users=active_users))
 
             current_user.room = int(room)
             db.session.commit()

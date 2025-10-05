@@ -7,11 +7,16 @@
 <link rel="stylesheet" href="{{url_for('static', filename='css/chatroom/choose.css')}}" />
 
 <div class="box">
-    {% for room in rooms %}
-    <button onclick="chose(this)" value="{{room}}">{{room}}</button>
-    {% endfor %}
     <label for="add">New Room</label>
     <input type="number" name="New Room" id="add">
+    <br/>
+    {% for room in rooms %}
+    <button onclick="chose(this)" value="{{room}}">{{room}}</button>
+        <span>Active Users:</span>
+        {% for user in active_users[room] %}
+            <span>{{ user }}, </span>
+        {% endfor %}
+    {% endfor %}
 </div>
 
 <script
