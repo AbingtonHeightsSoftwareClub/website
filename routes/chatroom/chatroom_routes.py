@@ -57,11 +57,17 @@ def register_routes(app, db: SQLAlchemy):
         print(room)
         # if they don't have a room
         if room == "choose":
+            # Define all rooms and all users in those rooms every time so that no user is missed.
+            active_users: dict = dict()
             rooms: set = set()
+            # For every active user ever
             for user in ActiveUsers.query.all():
+                # Add every possible room (it's a set so no duplicates)
                 rooms.add(user.room)
+                # Create a dictionary entry that contains a list of every active user in room n
+                active_users[user.room] = [active_user.title for active_user in ActiveUsers.query.filter_by(room=user.room).all()]
             db.session.commit()
-            return render_template("chatroom/choose_chatroom.html", rooms=rooms)
+            return render_template("chatroom/choose_chatroom.html", rooms=rooms, active_users=active_users)
 
         else:
             try:
@@ -69,7 +75,7 @@ def register_routes(app, db: SQLAlchemy):
 
             except ValueError:
                 print("Error")
-                return redirect(url_for("choose_chatroom", room="choose"))
+                return redirect(url_for("choose_chatroom", room="choose", active_users=active_users))
 
             current_user.room = int(room)
             db.session.commit()
