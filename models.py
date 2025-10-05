@@ -59,8 +59,7 @@ class Property(db.Model):
     # The name is used in the migration service. You do not need to know what it does.
     player_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey('players.id', ondelete="SET NULL"),
-        nullable=True,
-        name="fk_property_user"
+        nullable=True
     )
 
     # Tells SQLalchemy that it is owned by the player
@@ -85,6 +84,13 @@ class Property(db.Model):
     def __str__(self):
         return f"Title: {self.title}, Price: {self.price}, Position {self.position}"
 
+
+class Room(db.Model):
+    __tablename__ = "rooms"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(128), unique=True)
+    messages = relationship("Message", back_populates="temp_room")
+
 class Message(db.Model):
     __tablename__ = "messages"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -92,8 +98,14 @@ class Message(db.Model):
     text: Mapped[str] = mapped_column()
     time: Mapped[str] = mapped_column(default=datetime.time(hour=12))
     room: Mapped[int] = mapped_column()
+    temp_room_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey('rooms.id', ondelete="SET NULL"),
+        nullable=True
+    )
+    temp_room = relationship("Room", back_populates="messages")
+
     def __str__(self):
-        return f"{self.user}: {self.text}"
+        return f"{self.user}: {self.text}, {self.temp_room}"
 
 
 # Contains all active users in some chatroom
@@ -117,7 +129,10 @@ class ActiveUsers(db.Model):
 
     def __str__(self):
         return f"{self.title}: {self.session_id}\nRoom: {self.room} - Host? {self.host}"
-    
+
+
+
+
 # This is necessary for the login system.
 @login.user_loader
 def load_player(id):

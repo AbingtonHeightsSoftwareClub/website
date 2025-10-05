@@ -3,7 +3,7 @@ import os
 import random
 import sqlalchemy as sa
 from flask_sqlalchemy import SQLAlchemy
-from models import Player, Property, Message, ActiveUsers
+from models import Player, Property, Message, ActiveUsers, Room
 from extensions import socketio
 from flask_login import current_user
 from flask_socketio import emit, join_room, leave_room
@@ -27,9 +27,10 @@ def register_sockets(db: SQLAlchemy):
             emit("join",
                  {"message": f"{current_user.title} has joined the chatroom.", "users": [{"id": user.id, "title": user.title} for user in ActiveUsers.query.filter_by(room=current_user.room).all()]},
                  broadcast=True, to=current_user.room)
-
+            print(current_user.room)
+            [print(str(i)) for i in  list(Room.query.filter_by(title="1").first().messages)]
             data = []
-            for message in Message.query.filter_by(room=current_user.room).all():
+            for message in Room.query.filter_by(title=current_user.room).first().messages:
                 data.append({
                          "user": message.user,
                          "message": message.text,
@@ -59,7 +60,7 @@ def register_sockets(db: SQLAlchemy):
         # Sends a message sent by a user. It is broadcasted to everyone.
         if current_user.is_authenticated:
             # Send a structured payload so clients can display username and timestamp
-            db.session.add(Message(user=current_user.title, text=message, time=time, room=current_user.room))
+            db.session.add(Message(user=current_user.title, text=message, time=time, room=current_user.room, temp_room=Room.query.filter_by(title=current_user.room).first()))
             emit("broadcast-message",
                  {
                      "user": current_user.title,

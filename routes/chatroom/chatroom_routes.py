@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 
 from forms import LoginForm, RegistrationForm
-from models import Player, Property, Message, ActiveUsers
+from models import Player, Property, Message, ActiveUsers, Room
 from flask import send_from_directory
 from extensions import socketio
 from flask_login import current_user, login_user, logout_user, login_required
@@ -107,6 +107,9 @@ def register_routes(app, db: SQLAlchemy):
                 return redirect(url_for("choose_chatroom", room="choose"))
 
             current_user.room = int(room)
+            if len(list(Room.query.filter_by(title=current_user.room)))==0:
+                test_rooms = Room(title=room)
+                db.session.add(test_rooms)
             db.session.commit()
             return redirect(url_for("chatroom"))
 

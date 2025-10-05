@@ -51,8 +51,6 @@ def register_routes(app, db: SQLAlchemy):
             with app.app_context():
                 db.create_all()
             data = pd.read_csv("properties.csv", index_col=0)
-            for property in Property.query:
-                db.session.delete(property)
 
             for title in data.index.values:
                 property = Property(title=title,
