@@ -67,6 +67,8 @@ def register_routes(app, db: SQLAlchemy):
             # Define all rooms and all users in those rooms every time so that no user is missed.
             active_users: dict = dict()
             rooms: set = set()
+            # We should probably refactor rooms as a db object atp... (but that's too hard)
+            private_rooms: set = set()
             # For every active user ever
             for user in ActiveUsers.query.all():
                 # Add every possible room (it's a set so no duplicates)
@@ -102,7 +104,7 @@ def register_routes(app, db: SQLAlchemy):
                     rooms.add(message.room)
 
 
-                return redirect(url_for("choose_chatroom", room="choose", active_users=active_users))
+                return redirect(url_for("choose_chatroom", room="choose"))
 
             current_user.room = int(room)
             db.session.commit()

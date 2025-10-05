@@ -1,5 +1,5 @@
 let choose_new = document.getElementById("add");
-
+let password = document.getElementById("room_password")
 choose_new.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
 
