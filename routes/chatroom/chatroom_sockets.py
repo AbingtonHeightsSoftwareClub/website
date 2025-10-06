@@ -55,11 +55,14 @@ def register_sockets(db: SQLAlchemy):
                  broadcast=True, to=current_user.room)
 
     @socketio.on("private-room-creation")
-    def private_room_creation(password):
+    def private_room_creation(password, room_id):
         # Get the room
         room = Room.query.filter_by(title=current_user.room).first()
+        # set the title
+        room.title = room_id
         # Set the password
         room.password = password
+        print(f"password: {room.password}")
         db.session.commit()
 
     @socketio.on("room-password-check")
