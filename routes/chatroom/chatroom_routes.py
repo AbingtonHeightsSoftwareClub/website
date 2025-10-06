@@ -67,8 +67,12 @@ def register_routes(app, db: SQLAlchemy):
             # Define all rooms and all users in those rooms every time so that no user is missed.
             active_users: dict = dict()
             rooms: set = set()
-            # We should probably refactor rooms as a db object atp... (but that's too hard)
+            # Contains a set of all password protected rooms
             private_rooms: set = set()
+            # Add all the private rooms to their own set
+            for room in Room.query.all():
+                if room.password is not None:
+                    private_rooms.add(int(room.title))
             # For every active user ever
             for user in ActiveUsers.query.all():
                 # Add every possible room (it's a set so no duplicates)
@@ -76,12 +80,18 @@ def register_routes(app, db: SQLAlchemy):
                 # Create a dictionary entry that contains a list of every active user in room n
                 active_users[user.room] = [active_user.title for active_user in ActiveUsers.query.filter_by(room=user.room).all()]
 
+
             # If a room has messages in it, we want to be able to go to it and see what people sent. So, we need to list rooms that have messages in them.
             for message in Message.query.all():
                 rooms.add(message.room)
 
 
-            return render_template("chatroom/choose_chatroom.html", rooms=rooms, active_users=active_users)
+            return render_template(
+                  "chatroom/choose_chatroom.html",
+                                   rooms=rooms,
+                                   active_users=active_users,
+                                   private_rooms=private_rooms
+            )
 
         else:
             try:
@@ -89,20 +99,6 @@ def register_routes(app, db: SQLAlchemy):
 
             except ValueError:
                 print("Error")
-                # Define all rooms and all users in those rooms every time so that no user is missed.
-                active_users: dict = dict()
-                rooms: set = set()
-                # For every active user ever
-                for user in ActiveUsers.query.all():
-                    # Add every possible room (it's a set so no duplicates)
-                    rooms.add(user.room)
-                    # Create a dictionary entry that contains a list of every active user in room n
-                    active_users[user.room] = [active_user.title for active_user in
-                                               ActiveUsers.query.filter_by(room=user.room).all()]
-                # If a room has messages in it, we want to be able to go to it and see what people sent. So, we need to list rooms that have messages in them.
-                for message in Message.query.all():
-                    rooms.add(message.room)
-
 
                 return redirect(url_for("choose_chatroom", room="choose"))
 

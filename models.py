@@ -90,6 +90,9 @@ class Room(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(128), unique=True)
     messages = relationship("Message", back_populates="temp_room")
+    # Doesn't use hashing because it really didn't like me
+    password: Mapped[Optional[str]] = mapped_column(String(256), nullable=True)
+
 
 class Message(db.Model):
     __tablename__ = "messages"
@@ -114,21 +117,9 @@ class ActiveUsers(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column()
     room: Mapped[int] = mapped_column()
-    # Nullable cuz I can't set it to false by default
-    host: Mapped[bool] = mapped_column(nullable=True)
-    # This may be controversial, but this will only be stored here if the user is the host of a room
-    room_password: Mapped[Optional[str]] = mapped_column(nullable=True)
-
-    # Sets the password as the hash of the given password
-    def set_password(self, password):
-        self.room_password = generate_password_hash(password)
-
-    # Hashes the password and checks it to the stored hash. If true, login is correct.
-    def check_password(self, password):
-        return check_password_hash(self.room_password, password)
 
     def __str__(self):
-        return f"{self.title}: {self.session_id}\nRoom: {self.room} - Host? {self.host}"
+        return f"{self.title}: {self.session_id}\nRoom: {self.room}"
 
 
 

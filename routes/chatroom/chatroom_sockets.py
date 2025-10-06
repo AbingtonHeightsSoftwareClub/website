@@ -54,7 +54,22 @@ def register_sockets(db: SQLAlchemy):
                  {"message": f"{current_user.title} has left the chatroom.", "id": current_user.id},
                  broadcast=True, to=current_user.room)
 
-            
+    @socketio.on("private-room-creation")
+    def private_room_creation(password):
+        # Get the room
+        room = Room.query.filter_by(title=current_user.room).first()
+        # Set the password
+        room.password = password
+        db.session.commit()
+
+    @socketio.on("room-password-check")
+    def room_password_check(room_id, password_to_check):
+        room = Room.query.filter_by(title=room_id).first()
+        if room.password == password_to_check:
+            emit("room-password-result", {"password_matches": True, "room_id": room_id}, to=current_user.room)
+        else:
+            emit("room-password-result", {"password_matches": False, "room_id": room_id}, to=current_user.room)
+
     @socketio.on("message-sent")
     def message_sent(message, time):
         # Sends a message sent by a user. It is broadcasted to everyone.

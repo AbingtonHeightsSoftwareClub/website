@@ -10,14 +10,20 @@
     <div class="room add">
     <label for="add">New Room</label>
     <input type="number" name="New Room" id="add"><br/>
-    <label for="room_password">Password (optional): </label>
-    <input type="password" name="room_password" id="room_password">
+    <label for="new-room-password">Password (optional): </label>
+    <input type="password" name="new-room-password" id="new-room-password">
     <br/>
     </div>
 
     {% for room in rooms %}
     <div class="room">
-        <button onclick="chose(this)" value="{{room}}" class="buttons">{{room}}</button>
+        {% if room in private_rooms %}
+        <button onclick="chose(this, true)" value="{{room}}" class="buttons">{{room}}</button>
+            <label for="room-password">Password (optional): </label>
+            <input type="password" name="room-password-{{ room }}" id="room-password-{{ room }}">
+        {% else %}
+        <button onclick="chose(this, false)" value="{{room}}" class="buttons">{{room}}</button>
+        {% endif %}
         <!-- Only show active users if there are any -->
         <div class="active_users">
         {% if active_users[room]|length > 0 %}
