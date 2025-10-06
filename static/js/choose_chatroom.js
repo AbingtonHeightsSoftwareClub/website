@@ -13,7 +13,7 @@ choose_new.addEventListener("keypress", function (event) {
 password.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         console.log(password.value)
-        socket.emit('private-room-creation', password.value);
+        socket.emit('private-room-creation', password.value, choose_new.value);
         window.location.href = "/chatroom/choose_chatroom/" + choose_new.value;
     }
 })
