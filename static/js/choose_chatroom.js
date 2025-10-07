@@ -40,8 +40,8 @@ socket.on('room-password-result', (data) => {
     }
     // tell them to try again if they don't
     else {
-        window.location.href = "/chatroom/choose_chatroom"
-        alert("Incorrect password.")
+        alert("Incorrect password.");
+        window.location.href = "/chatroom/choose_chatroom/choose";
     }
 });
 

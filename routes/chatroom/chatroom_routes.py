@@ -104,10 +104,10 @@ def register_routes(app, db: SQLAlchemy):
 
             current_user.room = int(room)
             if len(list(Room.query.filter_by(title=current_user.room)))==0:
-                test_rooms = Room(title=room)
+                test_rooms = Room(title=current_user.room)
                 db.session.add(test_rooms)
             db.session.commit()
-            return redirect(url_for("chatroom"))
+            return redirect(url_for("chatroom", room=current_user.room))
 
 
     # Deletes the chat db, bandaid solution rn but we'll change it later
