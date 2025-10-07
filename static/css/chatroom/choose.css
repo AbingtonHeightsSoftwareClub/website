@@ -2,8 +2,8 @@
     display: grid;
     grid-template-rows: minmax(0, 5rem);
     grid-auto-rows: 5rem;
-    grid-template-columns: repeat(auto-fit, minmax(5rem, 20rem))
-
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 20rem));
+    gap: 5rem;
 }
 
 
@@ -14,7 +14,10 @@
     border-color: black;
     border-radius: 10px;
     border-width: 2px;
-    padding: 10px
+    overflow: auto;
+    margin: 10px;
+    padding: 10px;
+    min-height: 7.5rem;
 }
 
 .add{
