@@ -8,7 +8,6 @@ from extensions import socketio
 from flask_login import current_user
 from flask_socketio import emit, join_room, leave_room
 
-
 # Routes are registered as a function, so we don't get circular imports.
 # If it wasn't a function, it would get redefined multiple times, and Flask would throw errors.
 
@@ -27,9 +26,9 @@ def register_sockets(db: SQLAlchemy):
             emit("join",
                  {"message": f"{current_user.title} has joined the chatroom.", "users": [{"id": user.id, "title": user.title} for user in ActiveUsers.query.filter_by(room=current_user.room).all()]},
                  broadcast=True, to=current_user.room)
-            print(current_user.room)
-            [print(str(i)) for i in  list(Room.query.filter_by(title="1").first().messages)]
             data = []
+            print(f"ROOM TITLE: {Room.query.first().title}")
+            print(f"CURRENT_USER.ROOM: {current_user.room}")
             for message in Room.query.filter_by(title=current_user.room).first().messages:
                 data.append({
                          "user": message.user,
