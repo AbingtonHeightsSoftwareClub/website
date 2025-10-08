@@ -36,7 +36,7 @@ chatForm.addEventListener("focusout", function(event) {
     socket.emit("typing-stopped");
 });
 
-function sendChatMessage(message, time, connecting=false) {
+function sendChatMessage(message, time) {
     // create the div for the join message on all clients
     const messageElement = document.createElement('div');
     messageElement.className = 'chatroom-message';
@@ -49,10 +49,7 @@ function sendChatMessage(message, time, connecting=false) {
     
     // create the text of the message on all clients
     const body = document.createElement('div');
-    if(connecting)
-        body.className = 'join-message';
-    else
-        body.className = 'message-body';
+    body.className = 'message-body';
     body.textContent = message;
     messageElement.appendChild(body);
     // make sure the chatbox is there before appending 
@@ -73,7 +70,7 @@ socket.on('connect', () => {
 });
 
 socket.on('join', (data) => {
-    sendChatMessage(data.message, connecting=true);
+    sendChatMessage(data.message);
 
     // Iterates through every active user and appends to list of current users
     data["users"].forEach(user => {
@@ -95,7 +92,7 @@ socket.on('disconnect', (reason) => {
 });
 
 socket.on('leave', (data) => {
-    sendChatMessage(data.message, connecting=true);
+    sendChatMessage(data.message);
 
     // If the user is on the list of those connect, remove that user that left.
     if (document.getElementById(data.id) != null) {
