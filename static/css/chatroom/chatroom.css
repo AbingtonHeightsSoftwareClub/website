@@ -46,6 +46,11 @@ html, body, main {
     color: gray;
 }
 
+.join-messsage {
+    font-size: 0.9em;
+    color: #3aa3ff;
+}
+
 .user-count {
     display: flex;
     flex-direction: column;
