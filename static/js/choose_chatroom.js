@@ -5,8 +5,18 @@ let password = document.getElementById("new-room-password")
 
 choose_new.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
-
-        window.location.href = "/chatroom/choose_chatroom/" + choose_new.value;
+        var privateRooms = document.getElementsByClassName("private-room");
+        var privateRoomNumbers = [];
+        for(let room of privateRooms) {
+            privateRoomNumbers.push(room.value);
+        }
+        if(privateRoomNumbers.includes(choose_new.value)) {
+            alert("This room is private! Join the room through its existing tab.")
+            window.location.href = "/chatroom/choose_chatroom/choose"
+        }
+        else {
+            window.location.href = "/chatroom/choose_chatroom/" + choose_new.value;
+        }
     }
 })
 

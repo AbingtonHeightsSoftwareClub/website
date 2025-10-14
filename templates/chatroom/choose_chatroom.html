@@ -18,7 +18,7 @@
     {% for room in rooms %}
     <div class="room">
         {% if room in private_rooms %}
-        <button onclick="chose(this, true)" value="{{room}}" class="buttons">{{room}}</button>
+        <button onclick="chose(this, true)" value="{{room}}" class="buttons private-room">{{room}}</button>
             <label for="room-password">Password (required): </label>
             <input type="password" name="room-password-{{ room }}" id="room-password-{{ room }}">
         {% else %}
