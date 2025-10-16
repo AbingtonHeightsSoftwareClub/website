@@ -40,12 +40,14 @@ def create_app():
     # Importing like this stops circular imports
     from routes.monopoly import monopoly_routes, monopoly_sockets
     from routes.auth import auth_routes
-    from routes.home import home_routes
+    from routes.elements import elements_routes
     from routes.chatroom import chatroom_routes
     from routes.chatroom import chatroom_sockets
+    from routes.home import home_routes
 
 
     # Imports the views/webpage routes
+    elements_routes.register_routes(app, db)
     home_routes.register_routes(app, db)
     auth_routes.register_routes(app, db)
     monopoly_routes.register_routes(app, db)

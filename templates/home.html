@@ -1,33 +1,81 @@
 {% extends "base.html" %}
-{% block title %}Creation{% endblock %}
 
+{% block title %} Home {% endblock %}
 
 {% block content %}
 
-
-<div class="box">
-    <div>
-        <h1>Elements</h1>
-        <ul>
-            {% for player in players %}
-            <li>
-                {{player}}
-                <button onclick="deletePerson({{player.id}})">Delete</button>
-                <a href="{{url_for('details', id=player.id)}}">Details</a>
-            </li>
-            {% endfor %} {% for property in properties %}
-
-            <li>{{property.title}}</li>
-
-            {% endfor %}
-        </ul>
-
-
-        <div>
-            <link rel="stylesheet" href="{{url_for('static', filename='css/creation.css')}}"/>
-
-            <script type="text/javascript" src="{{url_for('static', filename='js/creation.js')}}"></script>
+<div style="margin: 10%; text-align: center;">
+    <h1>Welcome to the Software Club Website!!</h1>
+    <h2>Here is some infomation about us!</h2>
 </div>
 
-{% endblock %}
+<hr>
 
+<div style="display: flex; align-items: flex-start; margin: 5%;">
+    <div style="flex: 1; word-break: break-word;">
+        <h3>The Gathering Place</h3>
+        <p>About two times a year, we volunteer at the Gathering Place in order to assist those who are having difficulties with techonlogy.
+        We assist with things such as setting up email accounts, transfering data from one computer to another, fixing broken devices,
+        and other techonlogy related issues. Sessions last about an hour and a half to two hours. We are always happy to have people come to us for questions and we have a great time helping people out and teaching them about technology. We also get free food and drinks, which is always a plus!
+        </p>
+    </div>
+    <img src="{{ url_for('static', filename='img/gatheringPlace.webp') }}" alt="The Gathering Place" style="width:50%; height:auto; margin-left:2%;">
+</div>
+
+<hr>
+
+<div style="display: flex; align-items: flex-start; margin: 5%;">
+
+        <img src="{{ url_for('static', filename='img/githubSS.png') }}" alt="The Gathering Place" style="width:50%; height:auto; margin-right:2%;">
+
+    <div style="flex: 1; word-break: break-word; text-align: right;">
+        <h3>Website</h3>
+        <p>Like it or not, you're here right now! This website was created by members of the Software Club to showcase our projects and provide a platform for our members to interact. 
+            It features a chatroom where members can communicate , a monopoly game that can (soon) be played with friends. The website is built using Flask, a popular web framework for Python, 
+            and incorporates various web technologies such as HTML, CSS, and JavaScript.
+            We hope you enjoy exploring the site and participating in our projects! 
+        </p>
+    </div>
+
+</div>
+
+<hr>
+
+<div style="display: flex; align-items: flex-start; margin: 5%;">
+    <div style="flex: 1; word-break: break-word;">
+        <h3>The Computer Club</h3>
+        <p>While not technicly part of the Software Club, the Computer Club is a sister club that focuses on hardware and physical computing.
+            They take in donatations of old computers, repair them, and then give them to people in need.
+            We often collaborate with them on projects and events, and many members are part of both clubs. 
+            The Computer Club is a great place to learn about building and repairing computers. 
+            If you're interested in hardware or just want to learn more about computers, or you are having issues with your computer, we highly recommend checking out the Computer Club!
+        </p>
+    </div>
+    <img src="{{ url_for('static', filename='img/DavidFunny.webp') }}" alt="The Computer Club Assisting Us At The Gathering Place" style="width:50%; height:auto; margin-left:2%;">
+</div>
+
+<hr>
+
+<div style="display: flex; align-items: flex-start; margin: 5%;">
+
+        <img src="{{ url_for('static', filename='img/MTFC.jpg') }}" alt="The Gathering Place" style="width:50%; height:auto; margin-right:2%;">
+
+    <div style="flex: 1; word-break: break-word; text-align: right;">
+        <h3>Modeling the Future Challenge</h3>
+        <p>This year, the Software Club is hoping to participate in the Modeling the Future Challenge.
+            This challenge is a wonderful opportunity for us to learn about data science, and to apply our skills to real-world problems.
+            If we succeed, we will be able to take over the Pope's job, and we will get $25,000 to spend on Chicago Deep Dish Pizza.
+            We are currently in the process of creating our team(s) and brainstorming ideas for our project. 
+            If you're interested in participating, consider joining the Software Club.
+        </p>
+    </div>
+
+</div>
+
+<footer style="text-align: center;">
+    <hr>
+    <a href="mailto:allisons27@hsnet.ahsd.org">Contact Us!</a>
+    <hr>
+</footer>
+
+{% endblock %}
