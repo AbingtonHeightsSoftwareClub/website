@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %} Elements {% endblock %}
+
+
+{% block content %}
+
+
+<div class="box">
+    <div>
+        <h1>Elements</h1>
+        <ul>
+            {% for player in players %}
+            <li>
+                {{player}}
+                <button onclick="deletePerson({{player.id}})">Delete</button>
+                <a href="{{url_for('details', id=player.id)}}">Details</a>
+            </li>
+            {% endfor %} {% for property in properties %}
+
+            <li>{{property.title}}</li>
+
+            {% endfor %}
+        </ul>
+
+
+        <div>
+            <link rel="stylesheet" href="{{url_for('static', filename='css/creation.css')}}"/>
+
+            <script type="text/javascript" src="{{url_for('static', filename='js/creation.js')}}"></script>
+</div>
+
+{% endblock %}
+
